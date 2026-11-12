@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tabaco">
+<meta name="theme-color" content="#7A3218">
+<link rel="apple-touch-icon" href="./icon.svg">
+<link rel="manifest" href="./manifest.json">
+<title>Tabaco · UNAM</title>
+<style>
+:root {
+  --p: #C4622D;
+  --pd: #7A3218;
+  --pl: #FDF0E8;
+  --text: #1C1917;
+  --muted: #78716C;
+  --bg: #FAFAF9;
+  --card: #fff;
+  --green: #16A34A;
+  --yellow: #D97706;
+  --red: #DC2626;
+  --r: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  color: var(--text);
+  line-height: 1.5;
+}
+.app {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100dvh;
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─── HEADER ─── */
+.header {
+  background: linear-gradient(135deg, var(--p) 0%, var(--pd) 100%);
+  padding: 44px 24px 30px;
+  position: relative;
+  overflow: hidden;
+}
+.header-glow {
+  position: absolute;
+  right: -40px;
+  top: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,.16), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.lab-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.85);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 99px;
+  margin-bottom: 20px;
+}
+.header h1 {
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+.header h1 em { color: #FDBA74; font-style: normal; }
+.header p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 400;
+}
+.deco {
+  position: absolute;
+  right: 16px;
+  top: 36px;
+  font-size: 76px;
+  transform: rotate(-12deg);
+  pointer-events: none;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+}
+
+/* ─── TABS ─── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #E7E5E4;
+  background: var(--card);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.tabs button {
+  flex: 1;
+  padding: 13px 4px 11px;
+  border: none;
+  background: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: #A8A29E;
+  border-bottom: 2.5px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  letter-spacing: 0.2px;
+}
+.tabs button.on { color: var(--p); border-bottom-color: var(--p); }
+
+/* ─── PANELS / SCREENS ─── */
+.panel { display: none; flex-direction: column; flex: 1; animation: up .22s ease; overflow-y: auto; }
+.panel.on { display: flex; }
+.scr { display: none; flex-direction: column; flex: 1; }
+.scr.on { display: flex; }
+@keyframes up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ─── CONOCE PANEL ─── */
+.hero-stat {
+  background: var(--p);
+  padding: 28px 24px 24px;
+  position: relative;
+}
+.apr-refresh-icon-btn { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.4); background: rgba(255,255,255,.12); color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .12s; }
+.apr-refresh-icon-btn:hover { background: rgba(255,255,255,.24); }
+.hero-stat .num {
+  font-size: 64px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -3px;
+  margin-bottom: 6px;
+}
+.hero-stat .ctx {
+  font-size: 15px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+  max-width: 280px;
+}
+.hero-stat .src {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 10px;
+}
+
+.fact-strip {
+  background: var(--pl);
+  padding: 20px 24px;
+  border-bottom: 1px solid #F5E0D0;
+}
+.fact-strip .label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--p);
+  margin-bottom: 6px;
+}
+.fact-strip .text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--pd);
+  line-height: 1.5;
+}
+
+.section-body { padding: 24px 24px 0; }
+.section-body h3 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #A8A29E;
+  margin-bottom: 16px;
+}
+.effect-item {
+  padding: 16px 0;
+  border-bottom: 1px solid #F5F5F4;
+}
+.effect-item:last-child { border-bottom: none; }
+.effect-item h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.effect-item h4 .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.effect-item h4 .chev {
+  margin-left: auto;
+  color: #C9C5C2;
+  font-size: 13px;
+  transition: transform 0.2s;
+}
+.effect-item h4.open .chev { transform: rotate(90deg); }
+.effect-body {
+  display: none;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  padding-left: 16px;
+}
+.effect-body.open { display: block; }
+.brain-diagram-wrap { padding: 20px 24px 4px; text-align: center; }
+.brain-diagram-svg { width: 150px; height: 150px; }
+.brain-lobe { fill: var(--pl); stroke: var(--p); stroke-width: 0.35; }
+.brain-fold { fill: none; stroke: var(--p); stroke-width: 0.35; stroke-linecap: round; opacity: .6; }
+.brain-highlight { fill: #F59E0B; }
+.brain-highlight.alt { fill: #EF4444; }
+.brain-legend { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; text-align: left; max-width: 280px; margin-left: auto; margin-right: auto; }
+.brain-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.4; }
+.brain-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+.cta-banner {
+  margin: 28px 24px;
+  background: var(--pd);
+  border-radius: var(--r);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+.cta-banner p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+.cta-banner span { font-size: 22px; flex-shrink: 0; }
+
+.apr-switch { display: flex; gap: 8px; padding: 20px 24px; }
+.apr-switch-btn { flex: 1; padding: 12px 8px; border-radius: 12px; border: 1.5px solid #E7E5E4; background: #fff; color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all .12s; }
+.apr-switch-btn.on { background: var(--p); border-color: var(--p); color: #fff; }
+.apr-topic-screen { padding-bottom: 8px; }
+.apr-topic-screen .btn-volver { margin: 20px 24px 4px; width: calc(100% - 48px); }
+.myth-flash-counter { text-align: center; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 14px; }
+.myth-flash-card { perspective: 1200px; height: 300px; cursor: pointer; }
+.myth-flash-inner { position: relative; width: 100%; height: 100%; transition: transform .6s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; }
+.myth-flash-card.flipped .myth-flash-inner { transform: rotateY(180deg); }
+.myth-flash-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.myth-flash-face.front { background: linear-gradient(160deg, #FEF2F2, #FEE2E2); border: 2px solid #FCA5A5; }
+.myth-flash-face.back { background: linear-gradient(160deg, #F0FDF4, #DCFCE7); border: 2px solid #86EFAC; transform: rotateY(180deg); }
+.myth-flash-icon { font-size: 42px; margin-bottom: 14px; }
+.myth-flash-label { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+.myth-flash-face.front .myth-flash-label { color: #DC2626; }
+.myth-flash-face.back .myth-flash-label { color: #16A34A; }
+.myth-flash-text { font-size: 16px; font-weight: 700; line-height: 1.4; color: var(--text); }
+.myth-flash-hint { font-size: 11px; color: var(--muted); margin-top: 16px; font-weight: 600; }
+.myth-flash-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+.myth-flash-nav-btn { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #E7E5E4; background: #fff; font-size: 18px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.myth-flash-dots { display: flex; gap: 6px; }
+.myth-flash-dot { width: 7px; height: 7px; border-radius: 50%; background: #E7E5E4; transition: all .15s; }
+.myth-flash-dot.on { background: var(--p); width: 18px; border-radius: 99px; }
+.apr-list { display: flex; flex-direction: column; gap: 10px; }
+.apr-list-item { display: flex; gap: 12px; padding: 14px; background: #F5F5F4; border-radius: 12px; }
+.apr-list-icon { font-size: 20px; flex-shrink: 0; }
+.apr-list-title { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.apr-list-text { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.apr-prose { font-size: 14px; color: #57534E; line-height: 1.65; }
+.apr-prose strong { color: var(--text); }
+
+.perfil-field { margin-bottom: 14px; }
+.perfil-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #A8A29E; margin-bottom: 6px; display: block; }
+.perfil-input { width: 100%; padding: 13px 14px; border: 1.5px solid #E7E5E4; border-radius: 12px; font-size: 14px; font-family: inherit; color: var(--text); }
+.perfil-input:focus { outline: none; border-color: var(--p); }
+
+.carta-doc { background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 14px; padding: 24px 20px; font-family: Georgia, 'Times New Roman', serif; font-size: 14.5px; line-height: 1.75; color: #451A03; }
+.carta-doc p { margin-bottom: 14px; }
+.carta-doc p:last-child { margin-bottom: 0; }
+.carta-signature { margin-top: 20px; padding-top: 16px; border-top: 1px dashed #D6A24A; font-family: 'Brush Script MT', cursive, Georgia, serif; font-size: 24px; color: #78350F; }
+.carta-signature-date { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 11px; color: #A16207; margin-top: 4px; }
+.carta-reminder { background: var(--pl); border-radius: 12px; padding: 14px 16px; font-size: 13px; font-weight: 700; color: var(--pd); text-align: center; margin-top: 16px; line-height: 1.5; }
+
+
+/* ─── EVALÚA PANEL ─── */
+.det-screen {
+  padding: 40px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.det-screen h2 {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.det-screen p {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 32px;
+  line-height: 1.55;
+}
+.det-btns { display: flex; flex-direction: column; gap: 10px; }
+.btn-yes {
+  padding: 16px 20px;
+  border-radius: var(--r);
+  border: 1.5px solid #BBF7D0;
+  background: #F0FDF4;
+  color: #15803D;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s;
+}
+.btn-yes:hover { background: #DCFCE7; }
+.btn-no {
+  padding: 16px 20px;
+  border-radius: var(--r);
+  border: 1.5px solid #E7E5E4;
+  background: transparent;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s;
+}
+.btn-no:hover { background: #F5F5F4; }
+
+.q-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.q-top {
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid #F5F5F4;
+}
+.q-prog {
+  height: 3px;
+  background: #E7E5E4;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.q-prog-fill {
+  height: 100%;
+  background: var(--p);
+  border-radius: 99px;
+  transition: width 0.35s ease;
+}
+.q-counter {
+  font-size: 12px;
+  color: #C9C5C2;
+  font-weight: 500;
+}
+.q-body { padding: 28px 24px 0; flex: 1; }
+.q-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 32px;
+  letter-spacing: -0.3px;
+}
+.q-opts { display: flex; flex-direction: column; gap: 10px; }
+.q-opt {
+  padding: 16px 18px;
+  border-radius: var(--r);
+  border: 1.5px solid #E7E5E4;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.q-opt::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #D6D3D1;
+  flex-shrink: 0;
+  transition: all 0.12s;
+}
+.q-opt:hover { border-color: var(--p); background: var(--pl); }
+.q-opt.on { border-color: var(--p); background: var(--pl); color: var(--pd); }
+.q-opt.on::before { border-color: var(--p); background: var(--p); }
+.q-nav {
+  display: flex;
+  gap: 10px;
+  padding: 20px 24px 28px;
+  border-top: 1px solid #F5F5F4;
+  margin-top: auto;
+}
+.btn-back {
+  padding: 14px 18px;
+  border-radius: var(--r);
+  border: 1.5px solid #E7E5E4;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-next {
+  flex: 1;
+  padding: 14px 18px;
+  border-radius: var(--r);
+  border: none;
+  background: var(--p);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.12s;
+}
+.btn-next:hover { opacity: 0.88; }
+
+/* ─── RESULTADO ─── */
+.res-header {
+  padding: 32px 24px 24px;
+  text-align: center;
+}
+.semaforo {
+  display: inline-flex;
+  gap: 12px;
+  background: #1C1917;
+  border-radius: 99px;
+  padding: 10px 18px;
+  margin-bottom: 24px;
+}
+.sl {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  opacity: 0.14;
+  transition: opacity 0.6s, box-shadow 0.6s;
+}
+.sl.g { background: #22C55E; }
+.sl.y { background: #F59E0B; }
+.sl.r { background: #EF4444; }
+.sl.lit { opacity: 1; }
+.sl.lit.g { box-shadow: 0 0 18px 6px rgba(34,197,94,.65); animation: pg 2s ease-in-out infinite; }
+.sl.lit.y { box-shadow: 0 0 18px 6px rgba(245,158,11,.65); animation: py 2s ease-in-out infinite; }
+.sl.lit.r { box-shadow: 0 0 18px 6px rgba(239,68,68,.65); animation: pr 2s ease-in-out infinite; }
+@keyframes pg { 50%{box-shadow:0 0 26px 10px rgba(34,197,94,.9)} }
+@keyframes py { 50%{box-shadow:0 0 26px 10px rgba(245,158,11,.9)} }
+@keyframes pr { 50%{box-shadow:0 0 26px 10px rgba(239,68,68,.9)} }
+
+.res-zone {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+.res-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-bottom: 12px;
+}
+.res-label.g { background: #DCFCE7; color: #15803D; }
+.res-label.y { background: #FEF3C7; color: #92400E; }
+.res-label.r { background: #FEE2E2; color: #991B1B; }
+.res-score { font-size: 12px; color: #A8A29E; margin-bottom: 4px; }
+.res-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 300px;
+  margin: 0 auto 24px;
+}
+.res-divider {
+  border: none;
+  border-top: 1px solid #F5F5F4;
+}
+.tools-wrap { padding: 20px 24px 32px; }
+.tools-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #A8A29E;
+  margin-bottom: 16px;
+}
+.tool {
+  padding: 14px 0;
+  border-bottom: 1px solid #F5F5F4;
+  cursor: pointer;
+}
+.tool:last-child { border-bottom: none; }
+.tool-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.tool-hd h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.tool-hd .chev { color: #D6D3D1; font-size: 13px; transition: transform 0.2s; }
+.tool-hd.open .chev { transform: rotate(90deg); }
+.tool-bd {
+  display: none;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-top: 8px;
+}
+.tool-bd.open { display: block; }
+.tool-bd strong { color: var(--text); font-weight: 600; }
+.btn-reset {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: var(--r);
+  border: 1.5px solid #E7E5E4;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ─── NORISK ─── */
+.norisk {
+  padding: 48px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.norisk h2 {
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--green);
+  margin-bottom: 12px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.norisk p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.fact-box {
+  background: var(--pl);
+  border-left: 3px solid var(--p);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--pd);
+  line-height: 1.6;
+}
+.fact-box strong { display: block; font-weight: 700; margin-bottom: 4px; color: var(--pd); }
+.btn-volver {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: var(--r);
+  border: 1.5px solid #E7E5E4;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* ─── RECURSOS PANEL ─── */
+.skill-hero {
+  background: var(--pd);
+  padding: 24px;
+  margin-bottom: 0;
+}
+.skill-hero .tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #FDBA74;
+  margin-bottom: 10px;
+}
+.skill-hero h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.skill-hero p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.55;
+}
+
+.rec-section { padding: 24px 24px 0; }
+.rec-section h3 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #A8A29E;
+  margin-bottom: 16px;
+}
+.rec-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #F5F5F4;
+  cursor: pointer;
+}
+.rec-item:last-child { border-bottom: none; }
+.rec-icon {
+  width: 36px; height: 36px;
+  background: var(--pl);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.rec-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.rec-sub { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+.rec-bd {
+  display: none;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-top: 8px;
+  padding-bottom: 4px;
+}
+.rec-bd.open { display: block; }
+
+.video-section { padding: 24px 24px 0; }
+.video-section h3 { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #A8A29E; margin-bottom: 16px; }
+.video-list { display: flex; flex-direction: column; gap: 8px; }
+.video-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1.5px solid #E7E5E4; background: #fff; cursor: pointer; text-align: left; width: 100%; }
+.video-list-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--pl); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.video-list-title { font-size: 13.5px; font-weight: 700; color: var(--text); flex: 1; }
+.video-list-arrow { color: var(--muted); font-size: 16px; }
+.rec-list-sub { font-size: 11.5px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+.video-player { border-radius: var(--r); overflow: hidden; background: #000; aspect-ratio: 16/9; margin-bottom: 8px; }
+.video-player video { width: 100%; height: 100%; display: block; }
+.video-caption { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 20px; }
+
+.phone-card {
+  margin: 20px 24px;
+  background: #1C1917;
+  border-radius: var(--r);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.phone-card .num-big {
+  font-size: 13px;
+  font-weight: 800;
+  color: #FDBA74;
+  letter-spacing: 0.5px;
+}
+.phone-card p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 3px;
+}
+.phone-card .ph-icon { font-size: 28px; flex-shrink: 0; }
+
+.lab-credit { margin: 20px 24px; background: var(--pd); border-radius: var(--r); padding: 24px 20px; text-align: center; }
+.lab-credit img { width: 150px; max-width: 65%; margin-bottom: 16px; }
+.lab-credit .lc-name { color: #fff; font-size: 13px; font-weight: 700; line-height: 1.45; margin-bottom: 4px; }
+.lab-credit .lc-sub { color: rgba(255,255,255,.6); font-size: 12px; margin-bottom: 12px; }
+.lab-credit .lc-coord { color: rgba(255,255,255,.42); font-size: 10.5px; margin-bottom: 12px; }
+.lab-credit a { color: #FDBA74; font-size: 12px; font-weight: 700; text-decoration: none; }
+
+/* ─── BOTTOM NAV ─── */
+.bnav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 430px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid #E7E5E4;
+  display: flex;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.bnav button {
+  flex: 1;
+  padding: 10px 6px 9px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #A8A29E;
+  letter-spacing: 0.3px;
+  transition: color 0.15s;
+}
+.bnav button svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.bnav button.on { color: var(--p); }
+
+/* ─── AJUSTES ─── */
+.btn-danger { margin-top: 12px; padding: 14px; border-radius: var(--r); border: 1.5px solid #FCA5A5; background: #FEF2F2; color: #DC2626; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; }
+.btn-danger:hover { background: #FEE2E2; }
+.delete-confirm { margin-top: 12px; padding: 14px; background: #FEF2F2; border-radius: 12px; }
+.delete-confirm-text { font-size: 12.5px; color: #7F1D1D; line-height: 1.5; margin-bottom: 12px; }
+.delete-confirm-btns { display: flex; gap: 8px; }
+.delete-confirm-btns .btn-volver, .delete-confirm-btns .btn-danger { margin-top: 0; flex: 1; }
+.delete-confirm-done { font-size: 12.5px; color: #16A34A; font-weight: 700; margin-top: 12px; text-align: center; }
+.switch { position: relative; width: 46px; height: 27px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch input:checked + .switch-track { background: var(--p); }
+.switch input:checked + .switch-track::before { transform: translateX(19px); }
+
+/* PNF: metas, discrepancias, reflexión */
+.pnf-screen { padding: 40px 24px; flex: 1; }
+.pnf-tag { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #A8A29E; margin-bottom: 10px; }
+.pnf-screen h2 { font-size: 22px; font-weight: 900; line-height: 1.3; margin-bottom: 8px; }
+.pnf-screen > p { font-size: 13.5px; color: var(--muted); line-height: 1.5; margin-bottom: 24px; }
+.goals-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+.triggers-source { font-size: 11px; color: var(--muted); line-height: 1.5; margin-top: 16px; }
+.goal-chip { padding: 12px 16px; border-radius: 99px; border: 1.5px solid #E7E5E4; background: #fff; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all .12s; }
+.goal-chip.on { border-color: var(--p); background: var(--pl); color: var(--pd); font-weight: 700; }
+.reflection-input { width: 100%; min-height: 130px; border: 1.5px solid #E7E5E4; border-radius: 14px; padding: 14px; font-size: 14px; font-family: inherit; color: var(--text); resize: vertical; }
+
+.voice-wrap { position: relative; }
+.voice-btn { position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--p); color: #fff; font-size: 15px; cursor: pointer; align-items: center; justify-content: center; display: none; transition: background .15s; }
+.voice-btn.supported { display: flex; }
+.voice-btn.listening { background: #DC2626; animation: voicepulse 1.2s ease-in-out infinite; }
+@keyframes voicepulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,.4); } 50% { box-shadow: 0 0 0 8px rgba(220,38,38,0); } }
+.cmp-chart { margin-top: 14px; text-align: left; }
+.cmp-bar-row { margin-bottom: 10px; }
+.cmp-bar-row:last-child { margin-bottom: 0; }
+.cmp-bar-top { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; font-weight: 600; color: var(--pd); margin-bottom: 4px; }
+.cmp-bar-track { height: 10px; background: rgba(122,50,24,.12); border-radius: 99px; overflow: hidden; }
+.cmp-bar-fill { height: 100%; border-radius: 99px; }
+.cmp-source { font-size: 10.5px; color: var(--muted); margin-top: 10px; text-align: center; line-height: 1.5; }
+
+.bd-nav { display: flex; gap: 10px; margin-top: 24px; }
+
+
+/* ─── UTILS ─── */
+.spacer-80 { height: 80px; }
+
+.rec-hub-intro { padding: 28px 24px 8px; }
+.rec-hub-intro h2 { font-size: 22px; font-weight: 900; letter-spacing: -0.3px; margin-bottom: 6px; }
+.rec-hub-intro p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+.rec-modules { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 20px 24px 4px; }
+.rec-module { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px 14px; border-radius: var(--r); border: 1.5px solid #E7E5E4; background: #fff; cursor: pointer; text-align: left; transition: border-color .12s, background .12s; }
+.rec-module:hover { border-color: var(--p); background: var(--pl); }
+.rec-module-icon { font-size: 26px; }
+.rec-module-title { font-size: 13.5px; font-weight: 800; color: var(--text); line-height: 1.3; }
+.rec-module-sub { font-size: 11.5px; color: var(--muted); line-height: 1.35; }
+.rec-module-screen { padding-bottom: 8px; }
+.rec-module-screen .btn-volver { margin: 20px 24px 4px; width: calc(100% - 48px); }
+.rec-module-body { padding: 4px 24px 0; }
+.rec-module-body h3 { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #A8A29E; margin: 24px 0 12px; }
+.rec-module-body .rec-bd { display: block; }
+
+.breathe-wrap { padding: 12px 24px 8px; text-align: center; }
+.breathe-circle-wrap { display: flex; justify-content: center; align-items: center; height: 220px; }
+.breathe-circle { width: 140px; height: 140px; border-radius: 50%; background: var(--pl); border: 2px solid var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; transform: scale(1); transition: transform .6s ease; }
+.breathe-phase { font-size: 14.5px; font-weight: 800; color: var(--pd); text-align: center; }
+.breathe-wrap { position: relative; }
+.breathe-count { font-size: 21px; font-weight: 900; color: var(--p); margin-top: 4px; font-variant-numeric: tabular-nums; min-height: 26px; }
+.breathe-note { font-size: 13px; color: var(--muted); line-height: 1.55; margin-top: 20px; text-align: left; }
+
+.timer-wrap { margin: 4px 24px 20px; background: var(--pl); border-radius: var(--r); padding: 20px; }
+.timer-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--p); margin-bottom: 8px; }
+.timer-display { font-size: 54px; font-weight: 900; color: var(--pd); letter-spacing: -2px; line-height: 1; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.timer-desc { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+.timer-presets { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.timer-preset-btn { padding: 8px 14px; border-radius: 99px; border: 1.5px solid var(--p); background: transparent; color: var(--p); font-size: 12.5px; font-weight: 700; cursor: pointer; }
+.timer-preset-btn.on { background: var(--p); color: #fff; }
+.timer-btns { display: flex; gap: 8px; }
+.timer-btn { flex: 1; padding: 11px; border-radius: 10px; border: 1.5px solid var(--p); background: transparent; color: var(--p); font-size: 13px; font-weight: 700; cursor: pointer; transition: all .12s; }
+.timer-btn:hover, .timer-btn.go { background: var(--p); color: #fff; border-color: var(--p); }
+
+.cal-wrap { padding: 4px 24px 0; }
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.cal-nav-btn { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid #E7E5E4; background: #fff; color: var(--text); font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.cal-title { font-size: 15px; font-weight: 800; text-transform: capitalize; }
+.cal-dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 6px; }
+.cal-dow span { display: block; text-align: center; font-size: 10.5px; font-weight: 700; color: #A8A29E; text-transform: uppercase; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-day { aspect-ratio: 1; border-radius: 10px; border: 1.5px solid transparent; background: #F5F5F4; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; padding: 2px; }
+.cal-day-empty { background: transparent; cursor: default; }
+.cal-day-num { font-size: 12.5px; font-weight: 700; color: var(--text); }
+.cal-day-val { font-size: 9.5px; font-weight: 800; color: var(--p); margin-top: 1px; }
+.cal-day-logged { background: var(--pl); }
+.cal-day-today { border-color: var(--p); }
+.cal-day-selected { background: var(--p) !important; }
+.cal-day-selected .cal-day-num, .cal-day-selected .cal-day-val { color: #fff; }
+.cal-summary { font-size: 12px; color: var(--muted); margin-top: 14px; text-align: center; }
+.cal-editor { margin-top: 20px; background: var(--pl); border-radius: var(--r); padding: 18px; }
+.cal-editor-date { font-size: 13px; font-weight: 800; color: var(--pd); margin-bottom: 14px; text-align: center; }
+.cal-stepper { display: flex; align-items: center; justify-content: center; gap: 22px; margin-bottom: 6px; }
+.cal-step-btn { width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--p); color: #fff; font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.cal-step-value { font-size: 30px; font-weight: 900; color: var(--pd); min-width: 46px; text-align: center; font-variant-numeric: tabular-nums; }
+.cal-step-unit { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 16px; }
+.cal-privacy { font-size: 11px; color: var(--muted); text-align: center; margin-top: 12px; line-height: 1.5; }
+.note {
+  padding: 16px 24px;
+  font-size: 11px;
+  color: #C9C5C2;
+  line-height: 1.6;
+  border-top: 1px solid #F5F5F4;
+}
+/* Ajustes: preferencias, privacidad y acerca de */
+.set-wrap { padding: 8px 24px 0; }
+.set-h { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #A8A29E; margin: 24px 0 10px; }
+.set-card { background: #fff; border: 1.5px solid #F0EEED; border-radius: var(--r); padding: 4px 16px; }
+.set-row { padding: 14px 0; border-bottom: 1px solid #F5F5F4; }
+.set-row:last-child { border-bottom: none; }
+.set-row-inline { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.set-label { font-size: 14px; font-weight: 700; color: var(--text); }
+.set-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 3px; }
+.set-seg { display: flex; gap: 6px; margin-top: 10px; }
+.set-seg button { flex: 1; min-height: 40px; padding: 8px 4px; border-radius: 10px; border: 1.5px solid #E7E5E4; background: #fff; color: var(--muted); font-weight: 700; font-size: 12px; cursor: pointer; transition: all .12s; }
+.set-seg button.on { background: var(--p); border-color: var(--p); color: #fff; }
+.set-seg button:focus-visible, .set-toggle input:focus-visible + span { outline: 2px solid var(--p); outline-offset: 2px; }
+.set-toggle { position: relative; width: 46px; height: 27px; flex-shrink: 0; }
+.set-toggle input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 1; }
+.set-toggle span { position: absolute; inset: 0; background: #D6D3D1; border-radius: 99px; transition: background .15s; }
+.set-toggle span::before { content: ''; position: absolute; width: 21px; height: 21px; left: 3px; top: 3px; background: #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform .15s; }
+.set-toggle input:checked + span { background: var(--p); }
+.set-toggle input:checked + span::before { transform: translateX(19px); }
+.set-list { list-style: none; padding: 6px 0; }
+.set-list li { position: relative; padding: 9px 0 9px 26px; font-size: 13px; line-height: 1.55; color: var(--text); }
+.set-list li .ic { position: absolute; left: 0; top: 9px; }
+.set-kv { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #F5F5F4; font-size: 13px; }
+.set-kv:last-child { border-bottom: none; }
+.set-kv .k { color: var(--muted); flex-shrink: 0; }
+.set-kv .v { color: var(--text); font-weight: 700; text-align: right; }
+.set-note { background: var(--pl); border-radius: 12px; padding: 12px 14px; font-size: 12.5px; line-height: 1.55; color: var(--text); margin-top: 12px; }
+.set-note a { color: var(--p); font-weight: 700; text-decoration: none; white-space: nowrap; }
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after { transition-duration: 0s !important; animation-duration: 0s !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-glow"></div>
+    <div class="deco">🚬</div>
+    <div class="lab-tag">LEVyC · UNAM</div>
+    <h1>¿El cigarro<br>te <em>controla</em>?</h1>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PANEL: CONOCE
+  ══════════════════════════════════ -->
+  <div class="panel" id="p-conoce">
+
+    <div class="scr on" id="s-apr-home">
+      <div class="apr-switch">
+        <button class="apr-switch-btn on" data-target="s-apr-home" onclick="goApr('s-apr-home')">🔄 Dato aleatorio</button>
+        <button class="apr-switch-btn" data-target="s-apr-menu" onclick="goApr('s-apr-menu')">📚 Por tema</button>
+      </div>
+      <div class="hero-stat" id="aprHero">
+        <button class="apr-refresh-icon-btn" onclick="aprRefresh()" title="Otro dato" aria-label="Otro dato">↻</button>
+        <div class="num" id="aprNum">–</div>
+        <div class="ctx" id="aprCtx">–</div>
+        <div class="src" id="aprSrc">–</div>
+      </div>
+      <div class="cta-banner" onclick="goPanel('p-evalua', document.querySelectorAll('.tabs button')[1])">
+        <p>¿Cómo estás tú?<br>Evalúa tu nivel de riesgo</p>
+        <span>→</span>
+      </div>
+      <div class="spacer-80"></div>
+    </div>
+
+    <div class="scr" id="s-apr-menu">
+      <div class="apr-switch">
+        <button class="apr-switch-btn" data-target="s-apr-home" onclick="goApr('s-apr-home')">🔄 Dato aleatorio</button>
+        <button class="apr-switch-btn on" data-target="s-apr-menu" onclick="goApr('s-apr-menu')">📚 Por tema</button>
+      </div>
+      <div class="rec-hub-intro">
+        <h2>Aprende por tema</h2>
+        <p>Explora la información organizada como quieras.</p>
+      </div>
+      <div class="rec-modules">
+        <button class="rec-module" onclick="goApr('s-apr-cerebro')">
+          <div class="rec-module-icon">🧠</div>
+          <div class="rec-module-title">El cerebro y el cuerpo</div>
+          <div class="rec-module-sub">Qué le hace el cigarro</div>
+        </button>
+        <button class="rec-module" onclick="goApr('s-apr-mexico')">
+          <div class="rec-module-icon">📊</div>
+          <div class="rec-module-title">Datos en México</div>
+          <div class="rec-module-sub">Cifras reales</div>
+        </button>
+        <button class="rec-module" onclick="goApr('s-apr-basico')">
+          <div class="rec-module-icon">🚬</div>
+          <div class="rec-module-title">Lo básico</div>
+          <div class="rec-module-sub">¿Qué contiene un cigarro?</div>
+        </button>
+        <button class="rec-module" onclick="goApr('s-apr-mitos')">
+          <div class="rec-module-icon">❌</div>
+          <div class="rec-module-title">Mitos y realidades</div>
+          <div class="rec-module-sub">Lo que crees vs. lo que es</div>
+        </button>
+        <button class="rec-module" onclick="goApr('s-apr-riesgos')">
+          <div class="rec-module-icon">⏳</div>
+          <div class="rec-module-title">Riesgos a largo plazo</div>
+          <div class="rec-module-sub">Lo que se acumula</div>
+        </button>
+        <button class="rec-module" onclick="goApr('s-apr-beneficios')">
+          <div class="rec-module-icon">✅</div>
+          <div class="rec-module-title">Beneficios de dejar</div>
+          <div class="rec-module-sub">Lo que se gana</div>
+        </button>
+      </div>
+      <div class="spacer-80"></div>
+    </div>
+
+    <div class="scr" id="s-apr-cerebro">
+      <div class="apr-topic-screen">
+        <button class="btn-volver" onclick="goApr('s-apr-menu')">← Volver</button>
+        <div class="section-body">
+          <h3>Lo que le hace a tu cuerpo</h3>
+          <div class="effect-item">
+            <h4 onclick="toggleEff(this)">
+              <span class="dot" style="background:#F59E0B"></span>
+              Al fumar por primera vez
+              <span class="chev">›</span>
+            </h4>
+            <div class="effect-body">
+              La nicotina llega al cerebro en apenas 10 segundos, más rápido que si te la inyectaran directo a la vena. Ahí se libera dopamina, la misma señal química asociada con el placer y la recompensa, junto con una sensación de alivio del estrés. También son comunes el mareo, la tos y la náusea las primeras veces, el cuerpo todavía no está acostumbrado. El cerebro registra esa combinación de alivio y recompensa, y ahí empieza el ciclo que lleva a repetir.
+            </div>
+          </div>
+          <div class="effect-item">
+            <h4 onclick="toggleEff(this)">
+              <span class="dot" style="background:#EF4444"></span>
+              Con el tiempo
+              <span class="chev">›</span>
+            </h4>
+            <div class="effect-body">
+              El humo del cigarro contiene más de 7,000 compuestos químicos, al menos 70 conocidos como causantes de cáncer. Con el consumo repetido, las vías respiratorias se inflaman de forma crónica (bronquitis crónica), el corazón y los vasos sanguíneos se dañan poco a poco, y el riesgo de varios tipos de cáncer, no solo de pulmón, aumenta de forma acumulativa mientras más años se fuma.
+            </div>
+          </div>
+          <div class="effect-item">
+            <h4 onclick="toggleEff(this)">
+              <span class="dot" style="background:#8B5CF6"></span>
+              La trampa de la tolerancia
+              <span class="chev">›</span>
+            </h4>
+            <div class="effect-body">
+              Con el uso repetido, el cerebro necesita cada vez más nicotina para sentir el mismo efecto. Cuando el nivel de nicotina baja, aparecen síntomas de abstinencia: irritabilidad, ansiedad, dificultad para concentrarse, antojo intenso. El siguiente cigarro "resuelve" esos síntomas de inmediato, lo que refuerza el ciclo una y otra vez, aunque en realidad el cigarro es la causa de esos síntomas, no la solución real.
+            </div>
+          </div>
+          <div class="effect-item">
+            <h4 onclick="toggleEff(this)">
+              <span class="dot" style="background:#16A34A"></span>
+              Lo que le pasa a tus pulmones
+              <span class="chev">›</span>
+            </h4>
+            <div class="effect-body">
+              Los cilios, pequeños pelitos que normalmente limpian tus pulmones de partículas y moco, se paralizan con el humo del cigarro. Por eso los fumadores acumulan más flemas y tosen más, sobre todo en las mañanas: es el cuerpo tratando de limpiar lo que los cilios ya no pueden. Con los años, esto contribuye a enfermedades como la EPOC (enfermedad pulmonar obstructiva crónica).
+            </div>
+          </div>
+          <div class="effect-item">
+            <h4 onclick="toggleEff(this)">
+              <span class="dot" style="background:#0891B2"></span>
+              El corazón también lo resiente
+              <span class="chev">›</span>
+            </h4>
+            <div class="effect-body">
+              La nicotina eleva la frecuencia cardiaca y la presión arterial casi de inmediato, y el monóxido de carbono del humo reduce la cantidad de oxígeno que tu sangre puede transportar. Con los años, esto acelera el endurecimiento de las arterias, aumentando el riesgo de infarto y embolia, incluso en personas jóvenes que fuman.
+            </div>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-apr-mexico">
+      <div class="apr-topic-screen">
+        <button class="btn-volver" onclick="goApr('s-apr-menu')">← Volver</button>
+        <div class="hero-stat">
+          <div class="num">15.1%</div>
+          <div class="ctx">de la población mexicana de 12 a 65 años fuma tabaco actualmente, unos 13.9 millones de personas.</div>
+          <div class="src">Fuente: ENCODAT 2025</div>
+        </div>
+        <div class="fact-strip">
+          <div class="label">Dato clave</div>
+          <div class="text">90% de los fumadores adultos empezó a fumar antes de cumplir 18 años. (OMS)</div>
+        </div>
+        <div class="section-body">
+          <h3>El tabaquismo va a la baja, más en hombres</h3>
+          <div class="cmp-chart">
+            <div class="cmp-bar-row">
+              <div class="cmp-bar-top"><span>Hombres, 2016</span><span>27.1%</span></div>
+              <div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:27.1%;background:#93C5FD"></div></div>
+            </div>
+            <div class="cmp-bar-row">
+              <div class="cmp-bar-top"><span>Hombres, 2025</span><span>22.8%</span></div>
+              <div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:22.8%;background:#2563EB"></div></div>
+            </div>
+            <div class="cmp-bar-row">
+              <div class="cmp-bar-top"><span>Mujeres, 2016</span><span>8.7%</span></div>
+              <div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:8.7%;background:#FBCFE8"></div></div>
+            </div>
+            <div class="cmp-bar-row">
+              <div class="cmp-bar-top"><span>Mujeres, 2025</span><span>8%</span></div>
+              <div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:8%;background:#DB2777"></div></div>
+            </div>
+          </div>
+          <div class="cmp-source">% de la población de 12 a 65 años que fuma tabaco. En hombres bajó más que en mujeres, que se mantuvo casi igual. Fuente: ENCODAT, comparación 2016 vs. 2025.</div>
+        </div>
+        <div class="section-body">
+          <h3>En adolescentes, la baja fue todavía más grande</h3>
+          <div class="cmp-chart">
+            <div class="cmp-bar-row">
+              <div class="cmp-bar-top"><span>2016</span><span>4.9%</span></div>
+              <div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:4.9%;background:#A8A29E"></div></div>
+            </div>
+            <div class="cmp-bar-row">
+              <div class="cmp-bar-top"><span>2025</span><span>2%</span></div>
+              <div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:2%;background:#22C55E"></div></div>
+            </div>
+          </div>
+          <div class="cmp-source">% de adolescentes de 12 a 17 años que fumó tabaco en el último mes. Fuente: ENCODAT, comparación 2016 vs. 2025.</div>
+        </div>
+        <div class="section-body">
+          <h3>Más cifras</h3>
+          <div class="apr-list">
+            <div class="apr-list-item">
+              <div class="apr-list-icon">📈</div>
+              <div>
+                <div class="apr-list-title">62% son fumadores ocasionales</div>
+                <div class="apr-list-text">O tienen dependencia leve, no todos llegan a dependencia severa. Fuente: ENCODAT, escala FTND.</div>
+              </div>
+            </div>
+            <div class="apr-list-item">
+              <div class="apr-list-icon">💭</div>
+              <div>
+                <div class="apr-list-title">14.4% con síntomas depresivos</div>
+                <div class="apr-list-text">De los fumadores mexicanos presenta síntomas depresivos moderados o severos. Fuente: estudios en población mexicana.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-apr-basico">
+      <div class="apr-topic-screen">
+        <button class="btn-volver" onclick="goApr('s-apr-menu')">← Volver</button>
+        <div class="section-body">
+          <h3>¿Qué contiene un cigarro?</h3>
+          <p class="apr-prose">El humo del cigarro tiene <strong>más de 4,000 sustancias químicas</strong>, al menos <strong>70 son conocidas como causantes de cáncer</strong>. Entre ellas: alquitrán, monóxido de carbono, amoniaco y metales pesados.</p>
+          <p class="apr-prose" style="margin-top:14px">La <strong>nicotina llega al cerebro en 10 segundos</strong>, más rápido que si se inyectara directo a la vena. Ese tiempo tan corto es parte de por qué genera dependencia con tanta facilidad.</p>
+        </div>
+        <div class="section-body">
+          <h3>Más a fondo</h3>
+          <div class="effect-item">
+            <h4 onclick="toggleEff(this)">
+              <span class="dot" style="background:#7A3218"></span>
+              ¿Qué mide el cuestionario HONC?
+              <span class="chev">›</span>
+            </h4>
+            <div class="effect-body">
+              El cuestionario que acabas de contestar es el HONC (Hooked On Nicotine Checklist), diseñado para detectar las primeras señales de pérdida de autonomía sobre el tabaco, no solo dependencia física severa. Basta con responder "sí" a una sola pregunta para que el instrumento considere que ya hay señales de enganche, porque la investigación muestra que esas señales pueden aparecer desde los primeros cigarros, no solo después de años de fumar.
+            </div>
+          </div>
+          <div class="effect-item">
+            <h4 onclick="toggleEff(this)">
+              <span class="dot" style="background:#F59E0B"></span>
+              Nicotina vs. las otras 7,000 sustancias
+              <span class="chev">›</span>
+            </h4>
+            <div class="effect-body">
+              La nicotina es la sustancia que genera la dependencia, pero no es la que más daña la salud a largo plazo. El alquitrán, el monóxido de carbono y los más de 70 compuestos cancerígenos del humo son responsables de la mayoría del daño físico. Por eso los productos de reemplazo de nicotina (parches, chicles) usados para dejar de fumar son mucho menos dañinos que seguir fumando: separan la dependencia del daño.
+            </div>
+          </div>
+          <div class="effect-item">
+            <h4 onclick="toggleEff(this)">
+              <span class="dot" style="background:#16A34A"></span>
+              ¿Cuánto tarda el cuerpo en recuperarse?
+              <span class="chev">›</span>
+            </h4>
+            <div class="effect-body">
+              El cuerpo empieza a repararse casi de inmediato: a los 20 minutos baja la frecuencia cardiaca, a las 12 horas el monóxido de carbono en la sangre vuelve a niveles normales, entre 2 semanas y 3 meses mejora la circulación y la función pulmonar, y al año el riesgo de enfermedad cardiaca ya se reduce a la mitad comparado con seguir fumando.
+            </div>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-apr-mitos">
+      <div class="apr-topic-screen">
+        <button class="btn-volver" onclick="goApr('s-apr-menu')">← Volver</button>
+        <div class="section-body">
+          <h3>Mitos y realidades</h3>
+          <p class="apr-prose">Toca la tarjeta para voltearla.</p>
+          <div class="myth-flash-counter" id="mythCounter">1 de 5</div>
+          <div class="myth-flash-card" id="mythFlashCard" onclick="toggleMythFlip()">
+            <div class="myth-flash-inner">
+              <div class="myth-flash-face front">
+                <div class="myth-flash-icon" id="mythIcon">🚬</div>
+                <div class="myth-flash-label">Mito</div>
+                <div class="myth-flash-text" id="mythText">–</div>
+                <div class="myth-flash-hint">Toca para ver la realidad →</div>
+              </div>
+              <div class="myth-flash-face back">
+                <div class="myth-flash-icon">✅</div>
+                <div class="myth-flash-label">Realidad</div>
+                <div class="myth-flash-text" id="mythRealityText">–</div>
+              </div>
+            </div>
+          </div>
+          <div class="myth-flash-nav">
+            <button type="button" class="myth-flash-nav-btn" onclick="mythPrev(event)">‹</button>
+            <div class="myth-flash-dots" id="mythDots"></div>
+            <button type="button" class="myth-flash-nav-btn" onclick="mythNext(event)">›</button>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-apr-riesgos">
+      <div class="apr-topic-screen">
+        <button class="btn-volver" onclick="goApr('s-apr-menu')">← Volver</button>
+        <div class="section-body">
+          <h3>Riesgos a largo plazo</h3>
+          <div class="apr-list">
+            <div class="apr-list-item"><div class="apr-list-icon">🫁</div><div><div class="apr-list-title">Pulmones</div><div class="apr-list-text">El humo daña progresivamente las vías respiratorias, provocando bronquitis crónica y, con los años, EPOC (enfermedad pulmonar obstructiva crónica), una condición que reduce la capacidad pulmonar de forma permanente.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">🎗️</div><div><div class="apr-list-title">Cáncer</div><div class="apr-list-text">El tabaco causa no solo cáncer de pulmón, también de boca, garganta, esófago, vejiga, páncreas y otros órganos. Es responsable de una parte considerable de todas las muertes por cáncer a nivel mundial.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">❤️</div><div><div class="apr-list-title">Corazón</div><div class="apr-list-text">El monóxido de carbono y la nicotina dañan los vasos sanguíneos y elevan la presión arterial, lo que incrementa el riesgo de infarto, embolia y enfermedad arterial periférica con los años.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">🧴</div><div><div class="apr-list-title">Piel y apariencia</div><div class="apr-list-text">El humo reduce el flujo de sangre a la piel y descompone el colágeno, provocando envejecimiento prematuro, arrugas más profundas y manchas amarillentas en dientes y dedos.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">⏳</div><div><div class="apr-list-title">Esperanza de vida</div><div class="apr-list-text">Fumar durante toda la vida reduce en promedio 10 años la esperanza de vida, aproximadamente 20 minutos por cada cigarro fumado, según estimaciones de investigación en poblaciones de fumadores.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">👶</div><div><div class="apr-list-title">Fertilidad</div><div class="apr-list-text">El tabaco afecta la fertilidad tanto en hombres (reduce la calidad del esperma) como en mujeres (dificulta el embarazo y aumenta el riesgo de complicaciones durante la gestación).</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">👥</div><div><div class="apr-list-title">Quienes te rodean</div><div class="apr-list-text">El humo de segunda mano aumenta el riesgo de enfermedad respiratoria y cardiovascular en quienes conviven contigo, incluyendo niños y mascotas.</div></div></div>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-apr-beneficios">
+      <div class="apr-topic-screen">
+        <button class="btn-volver" onclick="goApr('s-apr-menu')">← Volver</button>
+        <div class="section-body">
+          <h3>Beneficios de dejar</h3>
+          <div class="apr-list">
+            <div class="apr-list-item"><div class="apr-list-icon">❤️</div><div><div class="apr-list-title">20 minutos</div><div class="apr-list-text">La frecuencia cardiaca y la presión arterial, que la nicotina eleva casi de inmediato, empiezan a normalizarse.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">🫁</div><div><div class="apr-list-title">12 horas</div><div class="apr-list-text">El nivel de monóxido de carbono en la sangre vuelve a lo normal, lo que permite que la sangre transporte oxígeno de forma más eficiente otra vez.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">💨</div><div><div class="apr-list-title">2 semanas a 3 meses</div><div class="apr-list-text">Mejora la circulación y la función pulmonar. Muchas personas notan que respiran mejor al hacer ejercicio o subir escaleras.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">🎯</div><div><div class="apr-list-title">1 año</div><div class="apr-list-text">El riesgo de enfermedad cardiaca se reduce a la mitad comparado con seguir fumando.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">🗓️</div><div><div class="apr-list-title">10 años</div><div class="apr-list-text">El riesgo de morir por cáncer de pulmón cae aproximadamente a la mitad comparado con alguien que sigue fumando, y el riesgo de otros tipos de cáncer también sigue bajando.</div></div></div>
+            <div class="apr-list-item"><div class="apr-list-icon">💰</div><div><div class="apr-list-title">Dinero</div><div class="apr-list-text">Si fumas media cajetilla al día, a un costo aproximado de $54 MXN (media cajetilla de $107), son cerca de $1,620 MXN al mes que se ahorran al dejar.</div></div></div>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════
+       PANEL: EVALÚA
+  ══════════════════════════════════ -->
+  <div class="panel on" id="p-evalua">
+
+    <!-- Detección -->
+    <div class="scr on" id="s-detect">
+      <div class="det-screen">
+        <h2>Estás en el lugar correcto.</h2>
+        <p>Esta evaluación es anónima y confidencial. Está aquí para ayudarte a entender cómo estás, sin juicios. ¿Fumas tabaco actualmente?</p>
+        <div class="det-btns">
+          <button class="btn-yes" onclick="startQ()">Sí, fumo</button>
+          <button class="btn-no" onclick="goScr('s-norisk')">No, no fumo</button>
+        </div>
+      </div>
+      <div class="note">Instrumento: HONC, Hooked on Nicotine Checklist (DiFranza et al., 2002)</div>
+    </div>
+
+    <!-- Cuestionario -->
+
+    <div class="scr" id="s-quiz">
+      <div class="q-wrap">
+        <div class="q-top">
+          <div class="q-prog"><div class="q-prog-fill" id="qpf" style="width:0%"></div></div>
+          <div class="q-counter" id="qctr">1 de 10</div>
+        </div>
+        <div class="q-body">
+          <div class="q-text" id="qtext">–</div>
+          <div class="q-opts" id="qopts"></div>
+        </div>
+        <div class="q-nav">
+          <button class="btn-back" onclick="prevQ()">Atrás</button>
+          <button class="btn-next" id="qbtn" onclick="nextQ()">Siguiente</button>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <!-- Resultado -->
+    <div class="scr" id="s-result">
+      <div class="res-header">
+        <div class="semaforo">
+          <div class="sl g" id="sg"></div>
+          <div class="sl y" id="sy"></div>
+          <div class="sl r" id="sr"></div>
+        </div>
+        <div class="res-zone" id="rzone">–</div>
+        <div class="res-label" id="rlabel">–</div>
+        <div class="res-score" id="rscore">–</div>
+        <div class="res-desc" id="rdesc">–</div>
+      </div>
+      <hr class="res-divider">
+      <div class="tools-wrap">
+        <div class="tools-title">Para ti</div>
+        <div id="toolslist"></div>
+        <button class="btn-reset" onclick="resetQ()">Volver a evaluar</button>
+      </div>
+      <div class="spacer-80"></div>
+    </div>
+
+    <!-- Sin riesgo -->
+    <div class="scr" id="s-norisk">
+      <div class="norisk">
+        <h2>Eso habla bien de ti.</h2>
+        <p>No consumir tabaco protege tu cerebro, pulmones y autonomía. La presión para fumar existe, pero no necesitas ceder.</p>
+        <div class="fact-box">
+          <strong>Lo que protege a quienes no fuman:</strong>
+          Tener actividades que importan, amistades que no fuman, y saber exactamente qué le hace la nicotina al cerebro.
+        </div>
+        <div class="fact-box">
+          <strong>La realidad de los que sí fuman:</strong>
+          9 de cada 10 dirían que preferirían no haber empezado. La dependencia no avisa, llega sola.
+        </div>
+        <button class="btn-volver" onclick="goScr('s-detect')">← Volver</button>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════
+       PANEL: RECURSOS
+  ══════════════════════════════════ -->
+  <div class="panel" id="p-recursos">
+
+    <div class="scr on" id="s-rec-hub">
+      <div class="rec-modules">
+        <button class="rec-module" onclick="goRec('s-rec-habilidades')">
+          <div class="rec-module-icon">🧠</div>
+          <div class="rec-module-title">Habilidades</div>
+          <div class="rec-module-sub">Técnicas para el momento</div>
+        </button>
+        <button class="rec-module" onclick="openCravingHub()">
+          <div class="rec-module-icon">⏱️</div>
+          <div class="rec-module-title">Craving</div>
+          <div class="rec-module-sub">Cronómetro, respiración y carta</div>
+        </button>
+        <button class="rec-module" onclick="openRegistro()">
+          <div class="rec-module-icon">📋</div>
+          <div class="rec-module-title">Registro de consumo</div>
+          <div class="rec-module-sub">Rompe el piloto automático</div>
+        </button>
+        <button class="rec-module" onclick="openTriggers()">
+          <div class="rec-module-icon">🔍</div>
+          <div class="rec-module-title">Identifica tus triggers</div>
+          <div class="rec-module-sub">¿Cuándo fumas más?</div>
+        </button>
+        <button class="rec-module" onclick="goRec('s-rec-videos')">
+          <div class="rec-module-icon">🎬</div>
+          <div class="rec-module-title">Videos</div>
+          <div class="rec-module-sub">De habilidades</div>
+        </button>
+        <button class="rec-module" onclick="openCarta()">
+          <div class="rec-module-icon">✍️</div>
+          <div class="rec-module-title">Carta de compromiso</div>
+          <div class="rec-module-sub">Escríbete a ti mismo</div>
+        </button>
+        <button class="rec-module" onclick="goRec('s-rec-contactos')">
+          <div class="rec-module-icon">📍</div>
+          <div class="rec-module-title">Números y lugares</div>
+          <div class="rec-module-sub">A dónde acudir</div>
+        </button>
+      </div>
+
+      <div class="spacer-80"></div>
+    </div>
+
+    <div class="scr" id="s-rec-habilidades">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-hub')">← Volver</button>
+        <div class="skill-hero">
+          <div class="tag">Habilidad · Rechazo asertivo</div>
+          <h3>Cuando te ofrecen un cigarro</h3>
+          <p>Di "no gracias" una vez, sin justificarte. Si insisten: "en serio, no". Cuantas más razones des, más las van a rebatir. La firmeza no necesita explicación.</p>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-craving">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-hub')">← Volver</button>
+        <div class="video-list" style="padding:20px 24px 4px">
+          <button type="button" class="video-list-item" onclick="openCravingTimer()">
+            <div class="video-list-icon">⏱️</div>
+            <div style="flex:1">
+              <div class="video-list-title">Cronómetro</div>
+              <div class="rec-list-sub">Cronometra el impulso</div>
+            </div>
+            <div class="video-list-arrow">›</div>
+          </button>
+          <button type="button" class="video-list-item" onclick="goRec('s-rec-craving-breath')">
+            <div class="video-list-icon">🌬️</div>
+            <div style="flex:1">
+              <div class="video-list-title">Respiración</div>
+              <div class="rec-list-sub">Inhala y exhala</div>
+            </div>
+            <div class="video-list-arrow">›</div>
+          </button>
+          <button type="button" class="video-list-item" onclick="openCarta()">
+            <div class="video-list-icon">✍️</div>
+            <div style="flex:1">
+              <div class="video-list-title" id="cravingCartaLabel">Carta de compromiso</div>
+              <div class="rec-list-sub">Léela cuando sientas el impulso</div>
+            </div>
+            <div class="video-list-arrow">›</div>
+          </button>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-craving-timer">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-craving')">← Volver</button>
+        <div class="timer-wrap">
+          <div class="timer-label">Cronómetro del craving</div>
+          <div class="timer-display" id="tdisplay">03:00</div>
+          <div class="timer-desc">El impulso de fumar dura 3 a 5 minutos y baja solo. Cronométralo y observa cómo pasa sin que tengas que actuar sobre él.</div>
+          <div class="timer-presets" id="timerPresets">
+            <button type="button" class="timer-preset-btn" data-mins="1" onclick="setTimerDuration(1)">1 min</button>
+            <button type="button" class="timer-preset-btn on" data-mins="3" onclick="setTimerDuration(3)">3 min</button>
+            <button type="button" class="timer-preset-btn" data-mins="5" onclick="setTimerDuration(5)">5 min</button>
+            <button type="button" class="timer-preset-btn" data-mins="10" onclick="setTimerDuration(10)">10 min</button>
+          </div>
+          <div class="timer-btns">
+            <button class="timer-btn go" id="tbtn" onclick="toggleTimer()">Iniciar</button>
+            <button class="timer-btn" onclick="resetTimer()">Reiniciar</button>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-craving-breath">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-craving')">← Volver</button>
+        <div class="breathe-wrap">
+          <div class="breathe-circle-wrap">
+            <div class="breathe-circle" id="breatheCircle">
+              <div class="breathe-phase" id="breathePhaseText">Lista para empezar</div>
+              <div class="breathe-count" id="breatheCount"></div>
+            </div>
+          </div>
+          <button class="btn-next" id="breatheBtn" onclick="toggleBreathe()">Inhala y exhala</button>
+          <p class="breathe-note">Inhala 4 segundos, mantén 7, exhala 8. Repite el ciclo las veces que necesites. Activa el sistema nervioso parasimpático y baja la intensidad del impulso.</p>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-registro">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-hub')">← Volver</button>
+        <div class="cal-wrap">
+          <div class="cal-header">
+            <button class="cal-nav-btn" onclick="calPrevMonth()">‹</button>
+            <div class="cal-title" id="calTitle">–</div>
+            <button class="cal-nav-btn" onclick="calNextMonth()">›</button>
+          </div>
+          <div class="cal-dow"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-summary" id="calSummary"></div>
+          <div class="cal-editor" id="calEditor" style="display:none">
+            <div class="cal-editor-date" id="calEditorDate">–</div>
+            <div class="cal-stepper">
+              <button class="cal-step-btn" onclick="calStep(-1)">−</button>
+              <div class="cal-step-value" id="calEditorValue">0</div>
+              <button class="cal-step-btn" onclick="calStep(1)">+</button>
+            </div>
+            <div class="cal-step-unit">cigarros ese día</div>
+          </div>
+          <p class="cal-privacy">Este registro se guarda solo en este dispositivo. Nadie más lo ve.</p>
+        </div>
+        <div class="rec-module-body">
+          <h3>Por qué funciona</h3>
+          <div class="rec-item">
+            <div class="rec-icon">📋</div>
+            <div style="flex:1">
+              <div class="rec-title">Rompe el piloto automático</div>
+              <div class="rec-bd">Ver el número real, día por día, cambia la perspectiva. La mayoría de los fumadores subestima cuánto fuma.</div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-triggers">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-hub')">← Volver</button>
+        <div class="rec-module-body" id="triggersIntro">
+          <h3>Identifica tus triggers</h3>
+          <p class="apr-prose">¿Después de comer? ¿Con café o alcohol? ¿Bajo estrés o aburrimiento? Elige las situaciones en las que más se te antoja fumar. Conocer el patrón es la base de cualquier cambio real.</p>
+          <div class="goals-grid" id="triggersGrid"></div>
+          <button class="btn-next" onclick="showTriggerResults()" style="width:100%">Ver mis resultados</button>
+          <p class="triggers-source">Basado en los 3 dominios de situaciones de riesgo del Smoking Self-Efficacy Questionnaire (SEQ-12, DiClemente et al.), un instrumento validado usado en investigación sobre prevención de recaídas en tabaquismo.</p>
+        </div>
+        <div class="rec-module-body" id="triggersResultWrap" style="display:none">
+          <h3>Tus triggers principales</h3>
+          <div id="triggersResultList"></div>
+          <button class="btn-volver" onclick="editTriggers()" style="width:100%; margin-top:16px">Volver a elegir</button>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-videos">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-hub')">← Volver</button>
+        <div class="video-section">
+          <h3>Videos de habilidades</h3>
+          <div class="video-list" id="videoList"></div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-video-player">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-videos')">← Volver</button>
+        <div class="video-section">
+          <div class="video-player">
+            <video id="videoPlayer" controls preload="none" playsinline></video>
+          </div>
+          <div class="video-caption" id="videoCaption"></div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-contactos">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-hub')">← Volver</button>
+        <div class="phone-card">
+          <div class="ph-icon">📞</div>
+          <div>
+            <div class="num-big">800-911-2000</div>
+            <p>CONADIC · Gratuito · Confidencial · 24 hrs</p>
+          </div>
+        </div>
+        <div class="rec-section" style="padding-bottom:0">
+          <h3>También disponibles</h3>
+          <div class="rec-item">
+            <div class="rec-icon">🏥</div>
+            <div>
+              <div class="rec-title">CAPA</div>
+              <div class="rec-sub">Centros de Atención Primaria en Adicciones · Sin costo en tu ciudad</div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-carta">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-hub')">← Volver</button>
+        <div class="pnf-screen" id="cartaIntro">
+          <div class="pnf-tag">Carta de compromiso</div>
+          <h2>Escríbete una carta</h2>
+          <p>Te vamos a guiar paso a paso para escribir una carta a ti mismo. Al final la firmas, y puedes volver a leerla cada vez que sientas un impulso.</p>
+          <button class="btn-next" onclick="cartaStart()">Empezar a escribir</button>
+        </div>
+        <div class="pnf-screen" id="cartaStepWrap" style="display:none">
+          <div class="pnf-tag" id="cartaStepTag">Paso 1 de 5</div>
+          <h2 id="cartaStepTitle">–</h2>
+          <p id="cartaStepPrompt">–</p>
+          <div class="voice-wrap">
+            <textarea class="reflection-input" id="cartaStepInput"></textarea>
+            <button class="voice-btn" id="cartaStepVoiceBtn" onclick="toggleVoice('cartaStepInput','cartaStepVoiceBtn')" title="Dictar por voz" type="button">🎤</button>
+          </div>
+          <div class="bd-nav">
+            <button class="btn-back" id="cartaBack" onclick="cartaBack()">Atrás</button>
+            <button class="btn-next" id="cartaNext" onclick="cartaNext()">Continuar</button>
+          </div>
+        </div>
+        <div class="pnf-screen" id="cartaSignWrap" style="display:none">
+          <div class="pnf-tag">Tu carta</div>
+          <h2>Esto es lo que escribiste</h2>
+          <div class="carta-doc" id="cartaDraft"></div>
+          <div class="perfil-field" style="margin-top:20px">
+            <label class="perfil-label">Firma con tu nombre</label>
+            <input class="perfil-input" type="text" id="cartaSignature" placeholder="Tu nombre">
+          </div>
+          <button class="btn-next" onclick="cartaSign()" style="width:100%; margin-top:16px">Firmar mi carta</button>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-rec-carta-final">
+      <div class="rec-module-screen">
+        <button class="btn-volver" onclick="goRec('s-rec-hub')">← Volver</button>
+        <div class="pnf-screen">
+          <div class="pnf-tag">Carta de compromiso</div>
+          <h2>Tu carta, firmada</h2>
+          <div class="carta-doc" id="cartaFinalDoc"></div>
+          <div class="carta-reminder">Cada vez que sientas un impulso o un craving, lee esta carta.</div>
+          <button class="btn-back" onclick="cartaStart(); goRec('s-rec-carta');" style="width:100%; margin-top:16px">Escribir una carta nueva</button>
+        </div>
+        <div class="spacer-80"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AJUSTES -->
+  <div class="panel" id="p-ajustes">
+
+    <div class="set-wrap">
+
+      <h3 class="set-h">Preferencias</h3>
+      <div class="set-card">
+        <div class="set-row">
+          <div class="set-label">Tamaño de texto</div>
+          <div class="set-seg" id="prefTextSize" role="group" aria-label="Tamaño de texto">
+            <button type="button" data-val="1" onclick="setTextSize(1)">Normal</button>
+            <button type="button" data-val="1.12" onclick="setTextSize(1.12)" style="font-size:13.5px">Grande</button>
+            <button type="button" data-val="1.25" onclick="setTextSize(1.25)" style="font-size:15px">Muy grande</button>
+          </div>
+        </div>
+        <div class="set-row">
+          <div class="set-label">Duración del cronómetro de craving</div>
+          <div class="set-desc">Con cuántos minutos arranca el cronómetro en Recursos.</div>
+          <div class="set-seg" id="prefTimer" role="group" aria-label="Duración del cronómetro">
+            <button type="button" data-val="1" onclick="setDefaultTimer(1)">1 min</button>
+            <button type="button" data-val="3" onclick="setDefaultTimer(3)">3 min</button>
+            <button type="button" data-val="5" onclick="setDefaultTimer(5)">5 min</button>
+            <button type="button" data-val="10" onclick="setDefaultTimer(10)">10 min</button>
+          </div>
+        </div>
+        <div class="set-row set-row-inline">
+          <div>
+            <div class="set-label">Reducir animaciones</div>
+            <div class="set-desc">Quita transiciones y movimientos de la pantalla.</div>
+          </div>
+          <label class="set-toggle"><input type="checkbox" id="prefReduceMotion" onchange="setReduceMotion(this.checked)" aria-label="Reducir animaciones"><span></span></label>
+        </div>
+      </div>
+
+      <h3 class="set-h">Privacidad</h3>
+      <div class="set-card">
+        <ul class="set-list">
+          <li><span class="ic">🔒</span>No necesitas cuenta ni dar tu nombre, correo o teléfono.</li>
+          <li><span class="ic">📱</span>Tu registro de consumo, tu carta de compromiso y tus triggers se guardan solo en este dispositivo. No se envían a ningún servidor.</li>
+          <li><span class="ic">📝</span>Las respuestas de la evaluación no se guardan: al salir o volver a evaluar se borran.</li>
+          <li><span class="ic">🎤</span>Si usas el dictado por voz, el reconocimiento lo hace tu navegador y puede procesar el audio en línea.</li>
+          <li><span class="ic">🧹</span>Si borras los datos del navegador o desinstalas la app, lo guardado se pierde.</li>
+        </ul>
+      </div>
+
+      <h3 class="set-h">Acerca de</h3>
+      <div class="set-card">
+        <div class="set-kv"><span class="k">Versión</span><span class="v">1.0</span></div>
+        <div class="set-kv"><span class="k">Instrumento</span><span class="v">HONC</span></div>
+        <div class="set-kv"><span class="k">Referencia</span><span class="v">Hooked on Nicotine Checklist (DiFranza et al., 2002)</span></div>
+      </div>
+      <div class="set-note">Esta app es una herramienta de orientación y no sustituye el diagnóstico ni la atención de un profesional de la salud. Si necesitas hablar con alguien: Línea de la Vida <a href="tel:8009112000">800 911 2000</a>, gratuita y 24 horas.</div>
+
+    </div>
+
+    <div class="lab-credit">
+      <img src="logo-unam-blanco.png" alt="UNAM">
+      <p class="lc-name">Laboratorio de Enseñanza Virtual y Ciberpsicología (LEVyC)</p>
+      <p class="lc-sub">Facultad de Psicología · UNAM</p>
+      <p class="lc-coord">Elaborado por: Salvador González M.</p>
+      <p class="lc-coord">Coordinadora: Dra. Georgina Cárdenas López</p>
+      <a href="https://ciberpsicologia.unam.mx/adicciones/" target="_blank" rel="noopener">ciberpsicologia.unam.mx/adicciones</a>
+    </div>
+
+    <div class="spacer-80"></div>
+  </div>
+
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <button class="on" id="bn0" onclick="goPanel('p-evalua',document.querySelectorAll('.tabs button')[0],this)">
+    <svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+    Evalúa
+  </button>
+  <button id="bn1" onclick="goPanel('p-recursos',document.querySelectorAll('.tabs button')[1],this)">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    Recursos
+  </button>
+  <button id="bn2" onclick="goPanel('p-conoce',document.querySelectorAll('.tabs button')[2],this)">
+    <svg viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 4 3 3 0 0 0 1.5 5A3 3 0 0 0 8 19a3 3 0 0 0 3-1V6a2 2 0 0 0-2-2z"/><path d="M15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 4 3 3 0 0 1-1.5 5A3 3 0 0 1 16 19a3 3 0 0 1-3-1V6a2 2 0 0 1 2-2z"/><path d="M9 9c.7.4 1.5.4 2 0M13 9c.5.4 1.3.4 2 0M9 13c.7.4 1.5.4 2 0M13 13c.5.4 1.3.4 2 0"/></svg>
+    Aprende
+  </button>
+  <button id="bn3" onclick="goPanel('p-ajustes',document.querySelectorAll('.tabs button')[3],this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    Ajustes
+  </button>
+</div>
+
+<script>
+const Qs = [
+  "¿Has intentado dejar de fumar pero no pudiste?",
+  "¿Fumas porque se te hace muy difícil dejarlo?",
+  "¿Alguna vez has sentido que eras adicto al cigarro?",
+  "¿Hay momentos en que sientes ganas muy intensas de fumar?",
+  "¿Has sentido que necesitas el cigarro para estar bien?",
+  "¿Se te dificulta no fumar en lugares donde está prohibido?",
+  "Cuando no fumas un rato, ¿se te dificulta concentrarte?",
+  "Cuando no fumas un rato, ¿te pones irritable o de mal humor?",
+  "Cuando no fumas un rato, ¿sientes ganas muy fuertes de fumar?",
+  "Cuando no fumas un rato, ¿te pones nervioso o ansioso?"
+];
+
+const TOOLS = {
+  green: [
+    { t: "El mecanismo", b: "La nicotina libera dopamina en segundos, eso es lo que crea la sensación de alivio. Conocer este mecanismo te permite identificar situaciones de riesgo antes de que empiecen." },
+    { t: "Lo que te protege", b: "Hobbies, amistades que no fuman y claridad sobre por qué no quieres fumar son tus mejores escudos. No es fuerza de voluntad, es contexto." }
+  ],
+  yellow: [
+    { t: "Aplazar, no resistir", b: "Cuando llegue el impulso, dite: <strong>\"en 15 minutos\"</strong>. El craving baja solo en 3-5 minutos. No necesitas resistirlo, solo aplazarlo." },
+    { t: "Ver tu patrón real", b: "Registra cada cigarro: hora, lugar, con quién y qué emoción sentías. La mayoría de los fumadores subestima su consumo porque es automático. Ver el patrón escrito lo cambia." },
+    { t: "Cambia un disparador", b: "¿Fumas con el café? ¿Manejando? Elige uno de tus triggers y cambia una sola cosa asociada a él. Un cambio pequeño y concreto es más poderoso que intentar cambiar todo." },
+    { t: "Sustitución simple", b: "Ante el impulso: agua fría, chicle sin azúcar, una caminata de 5 minutos. El objetivo es dar al cerebro algo que hacer mientras el craving pasa." }
+  ],
+  red: [
+    { t: "Respiración 4-7-8", b: "Inhala 4s → aguanta 7s → exhala 8s. Repite 3 veces. Activa el sistema nervioso parasimpático y reduce la ansiedad en menos de 2 minutos." },
+    { t: "Reducción gradual", b: "Un cigarro menos cada 2-3 días. No intentes dejarlo de golpe, el síndrome de abstinencia puede ser muy fuerte. La reducción gradual funciona mejor y es más sostenible." },
+    { t: "Habla con alguien", b: "Decirle a una persona cercana que quieres reducir activa un compromiso real. No tienes que resolverlo solo. La escucha activa es una herramienta muy poderosa." },
+    { t: "Línea de apoyo", b: "<strong>CONADIC 800-911-2000</strong>, gratuita, confidencial, 24 hrs. Los CAPA (Centros de Atención Primaria) ofrecen orientación sin costo en tu ciudad." }
+  ]
+};
+
+const RES = {
+  green: { zone: "Zona Verde", lbl: "Sin pérdida de autonomía", cls: "g", desc: "Tu relación con el tabaco no muestra señales de dependencia significativa. Mantener lo que estás haciendo es la mejor estrategia." },
+  yellow: { zone: "Zona Amarilla", lbl: "Señales tempranas", cls: "y", desc: "El tabaco está empezando a ganar terreno. No es tarde, hay herramientas concretas que funcionan en esta etapa." },
+  red: { zone: "Zona Roja", lbl: "Pérdida de autonomía importante", cls: "r", desc: "Tu consumo muestra una dependencia real. Esto no es un juicio, es información. Con apoyo y las herramientas correctas, se puede recuperar el control." }
+};
+
+const VIDEOS = [
+  { t: "Asertividad", f: "../videos/asertividad.mp4" },
+  { t: "Balance decisional", f: "../videos/balance-decisional.mp4" },
+  { t: "Habilidad: toma de decisión", f: "../videos/habilidad-toma-decision.mp4" },
+  { t: "Luchadores", f: "../videos/luchadores.mp4" },
+  { t: "Negociación y rechazo", f: "../videos/negociacion-y-rechazo.mp4" },
+  { t: "Negociación, confrontamiento y rechazo", f: "../videos/negociacion-confrontamiento-rechazo.mp4" },
+  { t: "Toma de decisiones", f: "../videos/toma-de-decisiones.mp4" }
+];
+
+function renderVideoList() {
+  const wrap = document.getElementById('videoList');
+  if (!wrap) return;
+  wrap.innerHTML = VIDEOS.map((v,i) => `<button type="button" class="video-list-item" onclick="openVideo(${i})"><div class="video-list-icon">🎬</div><div class="video-list-title">${v.t}</div><div class="video-list-arrow">›</div></button>`).join('');
+}
+
+function openVideo(i) {
+  const v = document.getElementById('videoPlayer');
+  v.pause();
+  v.src = VIDEOS[i].f;
+  v.load();
+  document.getElementById('videoCaption').textContent = VIDEOS[i].t;
+  goRec('s-rec-video-player');
+}
+renderVideoList();
+
+/* Mitos y realidades: flashcard que se voltea con un tap (transform 3D
+   rotateY), una tarjeta a la vez con navegación ‹ › y puntos, en vez de
+   la lista de 5 tarjetas abiertas de antes. */
+const MYTH_CARDS = [
+  { icon: '🚬', myth: 'Los cigarros light son menos dañinos.', reality: 'Contienen la misma cantidad de sustancias tóxicas. Muchos fumadores compensan fumando más profundo o más seguido.' },
+  { icon: '😌', myth: 'Fumar me ayuda a relajarme del estrés.', reality: 'La "calma" que sientes es el alivio de la propia abstinencia de nicotina. Fumar aumenta la ansiedad a largo plazo.' },
+  { icon: '🔓', myth: 'Puedo dejarlo cuando quiera, no estoy enganchado.', reality: 'La nicotina crea dependencia física en cuestión de días para algunas personas, no depende solo de "fuerza de voluntad".' },
+  { icon: '⏱️', myth: 'El daño ya está hecho, ya no importa si dejo de fumar.', reality: 'El cuerpo empieza a repararse desde los primeros 20 minutos sin fumar, y el riesgo de varias enfermedades baja con los años.' },
+  { icon: '🔢', myth: 'Fumar pocos cigarros al día no es un riesgo real.', reality: 'No existe un nivel de consumo de tabaco libre de riesgo, según la evidencia científica.' },
+];
+let mythIdx = 0;
+
+function renderMythCard() {
+  const c = MYTH_CARDS[mythIdx];
+  document.getElementById('mythIcon').textContent = c.icon;
+  document.getElementById('mythText').textContent = c.myth;
+  document.getElementById('mythRealityText').textContent = c.reality;
+  document.getElementById('mythCounter').textContent = (mythIdx + 1) + ' de ' + MYTH_CARDS.length;
+  document.getElementById('mythFlashCard').classList.remove('flipped');
+  document.getElementById('mythDots').innerHTML = MYTH_CARDS.map(function (_, i) {
+    return '<div class="myth-flash-dot' + (i === mythIdx ? ' on' : '') + '"></div>';
+  }).join('');
+}
+function toggleMythFlip() { document.getElementById('mythFlashCard').classList.toggle('flipped'); }
+function mythPrev(e) { if (e) e.stopPropagation(); mythIdx = (mythIdx - 1 + MYTH_CARDS.length) % MYTH_CARDS.length; renderMythCard(); }
+function mythNext(e) { if (e) e.stopPropagation(); mythIdx = (mythIdx + 1) % MYTH_CARDS.length; renderMythCard(); }
+renderMythCard();
+
+let cur = 0, ans = Array(10).fill(null);
+
+function goPanel(id, tabBtn, navBtn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.bnav button').forEach(b => b.classList.remove('on'));
+  tabBtn?.classList.add('on');
+  if (navBtn) navBtn.classList.add('on');
+  else {
+    const map = {'p-evalua':'bn0','p-recursos':'bn1','p-conoce':'bn2','p-ajustes':'bn3'};
+    document.getElementById(map[id])?.classList.add('on');
+  }
+  window.scrollTo(0, 0);
+}
+
+function goScr(id) {
+  document.querySelectorAll('#p-evalua .scr').forEach(s => s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0, 0);
+}
+
+/* Recursos: pestaña reorganizada como hub de módulos (2026-08-21). Cada
+   módulo es su propia pantalla dentro de #p-recursos, con su botón "Volver"
+   propio de vuelta al hub (s-rec-hub). */
+function goRec(id) {
+  document.querySelectorAll('#p-recursos .scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+
+async function openCravingHub() {
+  const saved = await loadCartaData();
+  const isSigned = saved && saved.signedDate;
+  document.getElementById('cravingCartaLabel').textContent = isSigned ? 'Recuerda tu compromiso' : 'Carta de compromiso';
+  goRec('s-rec-craving');
+}
+
+/* Carta de compromiso (Behavioral/Contingency Contract): 5 pasos guiados
+   con texto libre (cada input arranca ya con una frase para completar, así
+   la carta final se lee como prosa natural), luego firma. Se guarda solo en
+   este dispositivo (localStorage) y, si ya existe una carta firmada,
+   el módulo abre directo en modo lectura la próxima vez, en vez del flujo
+   de escritura. */
+const CARTA_STEPS = [
+  {
+    tag: 'Paso 1 de 5',
+    title: '¿Por qué esto te importa?',
+    prompt: 'Empieza contando por qué esto es importante para ti. ¿Qué te motivó a llegar hasta aquí?',
+    starter: 'Quiero dejar de fumar porque ',
+  },
+  {
+    tag: 'Paso 2 de 5',
+    title: '¿A qué te comprometes?',
+    prompt: '¿Qué te estás comprometiendo a hacer? Sé lo más específico que puedas.',
+    starter: 'Me comprometo a ',
+  },
+  {
+    tag: 'Paso 3 de 5',
+    title: '¿Qué harás cuando sientas el impulso?',
+    prompt: 'Cuando llegue el impulso o el craving, ¿qué vas a hacer en lugar de ceder? Puedes usar las técnicas que ya viste en Recursos.',
+    starter: 'Cuando sienta el impulso, voy a ',
+  },
+  {
+    tag: 'Paso 4 de 5',
+    title: '¿En quién te puedes apoyar?',
+    prompt: '¿Hay alguien en quien puedas apoyarte cuando esto se sienta difícil?',
+    starter: 'Puedo apoyarme en ',
+  },
+  {
+    tag: 'Paso 5 de 5',
+    title: '¿Cómo te vas a sentir al lograrlo?',
+    prompt: 'Imagina que lo logras. ¿Cómo te vas a sentir? ¿Qué va a ser diferente?',
+    starter: 'Cuando lo logre, voy a sentirme ',
+  },
+];
+
+function freshCartaData() {
+  return { step1: '', step2: '', step3: '', step4: '', step5: '', signature: '', signedDate: null };
+}
+let cartaData = freshCartaData();
+let cartaStepIdx = 0;
+
+/* Carta de compromiso: se guarda solo en este dispositivo (localStorage). */
+const CARTA_KEY = 'tabaco_carta_compromiso';
+async function loadCartaData() {
+  try { return JSON.parse(localStorage.getItem(CARTA_KEY)) || null; }
+  catch (e) { return null; }
+}
+async function saveCartaData(data) {
+  try { localStorage.setItem(CARTA_KEY, JSON.stringify(data)); } catch (e) {}
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+async function openCarta() {
+  const saved = await loadCartaData();
+  if (saved && saved.signedDate) {
+    cartaData = saved;
+    renderCartaFinal(cartaData);
+    goRec('s-rec-carta-final');
+  } else {
+    document.getElementById('cartaIntro').style.display = '';
+    document.getElementById('cartaStepWrap').style.display = 'none';
+    document.getElementById('cartaSignWrap').style.display = 'none';
+    goRec('s-rec-carta');
+  }
+}
+
+function cartaStart() {
+  cartaData = freshCartaData();
+  cartaStepIdx = 0;
+  document.getElementById('cartaIntro').style.display = 'none';
+  document.getElementById('cartaSignWrap').style.display = 'none';
+  document.getElementById('cartaStepWrap').style.display = '';
+  renderCartaStep();
+}
+
+function renderCartaStep() {
+  const s = CARTA_STEPS[cartaStepIdx];
+  const key = 'step' + (cartaStepIdx + 1);
+  document.getElementById('cartaStepTag').textContent = s.tag;
+  document.getElementById('cartaStepTitle').textContent = s.title;
+  document.getElementById('cartaStepPrompt').textContent = s.prompt;
+  document.getElementById('cartaStepInput').value = cartaData[key] || s.starter;
+  document.getElementById('cartaBack').style.visibility = cartaStepIdx === 0 ? 'hidden' : 'visible';
+  document.getElementById('cartaNext').textContent = cartaStepIdx === CARTA_STEPS.length - 1 ? 'Ver mi carta' : 'Continuar';
+}
+
+function cartaFlashEmpty(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = '#F59E0B';
+  setTimeout(function () { el.style.borderColor = ''; }, 700);
+}
+
+function cartaNext() {
+  const key = 'step' + (cartaStepIdx + 1);
+  const val = document.getElementById('cartaStepInput').value.trim();
+  if (!val) { cartaFlashEmpty('cartaStepInput'); return; }
+  cartaData[key] = val;
+  if (cartaStepIdx < CARTA_STEPS.length - 1) { cartaStepIdx++; renderCartaStep(); }
+  else { showCartaSign(); }
+}
+
+function cartaBack() {
+  const key = 'step' + (cartaStepIdx + 1);
+  cartaData[key] = document.getElementById('cartaStepInput').value.trim();
+  if (cartaStepIdx > 0) { cartaStepIdx--; renderCartaStep(); }
+}
+
+function cartaBuildParagraphs(data) {
+  return ['step1', 'step2', 'step3', 'step4', 'step5'].map(function (k) {
+    return '<p>' + escapeHtml(data[k]) + '</p>';
+  }).join('');
+}
+
+function showCartaSign() {
+  document.getElementById('cartaStepWrap').style.display = 'none';
+  document.getElementById('cartaSignWrap').style.display = '';
+  document.getElementById('cartaDraft').innerHTML = cartaBuildParagraphs(cartaData);
+}
+
+async function cartaSign() {
+  const sig = document.getElementById('cartaSignature').value.trim();
+  if (!sig) { cartaFlashEmpty('cartaSignature'); return; }
+  cartaData.signature = sig;
+  cartaData.signedDate = new Date().toISOString();
+  await saveCartaData(cartaData);
+  renderCartaFinal(cartaData);
+  goRec('s-rec-carta-final');
+}
+
+function renderCartaFinal(data) {
+  if (!data) return;
+  cartaData = data;
+  const dateStr = new Date(data.signedDate).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('cartaFinalDoc').innerHTML = cartaBuildParagraphs(data) +
+    '<div class="carta-signature">' + escapeHtml(data.signature) + '</div>' +
+    '<div class="carta-signature-date">Firmado el ' + dateStr + '</div>';
+}
+
+/* Dictado por voz en los campos de texto libre (reflexión, "otra razón" de
+   Balance Decisional y de las reglas). Usa la Web Speech API del navegador,
+   sin backend ni librerías externas. Si el navegador no la soporta, el
+   botón de micrófono se queda oculto (progressive enhancement). */
+const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+let voiceRecognition = null, voiceActiveBtn = null;
+
+function initVoiceButtons(btnIds) {
+  if (!SpeechRecognitionAPI) return;
+  btnIds.forEach(function (id) {
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.add('supported');
+  });
+}
+
+function toggleVoice(targetId, btnId) {
+  if (!SpeechRecognitionAPI) return;
+  if (voiceRecognition && voiceActiveBtn === btnId) { voiceRecognition.stop(); return; }
+  if (voiceRecognition) voiceRecognition.stop();
+
+  const btn = document.getElementById(btnId);
+  const recog = new SpeechRecognitionAPI();
+  recog.lang = 'es-MX';
+  recog.interimResults = false;
+  recog.maxAlternatives = 1;
+  voiceRecognition = recog;
+  voiceActiveBtn = btnId;
+  btn.classList.add('listening');
+  btn.textContent = '⏹';
+
+  recog.onresult = function (e) {
+    const transcript = e.results[0][0].transcript;
+    const el = document.getElementById(targetId);
+    el.value = (el.value ? el.value.trim() + ' ' : '') + transcript;
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+  recog.onerror = function () { stopVoiceUI(); };
+  recog.onend = function () { stopVoiceUI(); };
+  recog.start();
+}
+
+function stopVoiceUI() {
+  if (voiceActiveBtn) {
+    const btn = document.getElementById(voiceActiveBtn);
+    if (btn) { btn.classList.remove('listening'); btn.textContent = '🎤'; }
+  }
+  voiceRecognition = null;
+  voiceActiveBtn = null;
+}
+initVoiceButtons(['cartaStepVoiceBtn']);
+
+/* Calendario de registro de consumo: guarda un número por día solo en este
+   dispositivo (localStorage). consumoLogCache es el espejo en memoria
+   { "2026-08-21": 3, ... } para dibujar el calendario. */
+const CONSUMO_UNIT = 'cigarros';
+const CAL_MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+let consumoLogCache = {};
+
+const CONSUMO_KEY = 'tabaco_consumo_log';
+async function refreshConsumoLog() {
+  try { consumoLogCache = JSON.parse(localStorage.getItem(CONSUMO_KEY)) || {}; }
+  catch (e) { consumoLogCache = {}; }
+}
+function saveConsumoLog() {
+  try { localStorage.setItem(CONSUMO_KEY, JSON.stringify(consumoLogCache)); } catch (e) {}
+}
+function calDateKey(y, m, d) { return y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0'); }
+
+let calViewYear, calViewMonth, calSelectedDate = null, calEditorValue = 0;
+
+async function openRegistro() {
+  const today = new Date();
+  calViewYear = today.getFullYear();
+  calViewMonth = today.getMonth();
+  calSelectedDate = null;
+  goRec('s-rec-registro');
+  await refreshConsumoLog();
+  renderCalendar();
+}
+function calPrevMonth() { calViewMonth--; if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; } renderCalendar(); }
+function calNextMonth() { calViewMonth++; if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; } renderCalendar(); }
+
+function renderCalendar() {
+  const log = consumoLogCache;
+  document.getElementById('calTitle').textContent = CAL_MONTHS[calViewMonth] + ' ' + calViewYear;
+
+  const firstDow = (new Date(calViewYear, calViewMonth, 1).getDay() + 6) % 7;
+  const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
+  const today = new Date();
+  const todayKey = calDateKey(today.getFullYear(), today.getMonth(), today.getDate());
+
+  let html = '';
+  for (let i = 0; i < firstDow; i++) html += '<div class="cal-day cal-day-empty"></div>';
+  let totalMonth = 0, daysLogged = 0;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = calDateKey(calViewYear, calViewMonth, d);
+    const val = log[key];
+    const hasLog = val !== undefined && val !== null;
+    if (hasLog) { totalMonth += val; daysLogged++; }
+    const cls = ['cal-day'];
+    if (hasLog) cls.push('cal-day-logged');
+    if (key === todayKey) cls.push('cal-day-today');
+    if (key === calSelectedDate) cls.push('cal-day-selected');
+    html += '<button class="' + cls.join(' ') + '" onclick="calSelectDay(' + d + ')">' +
+      '<span class="cal-day-num">' + d + '</span>' +
+      (hasLog ? '<span class="cal-day-val">' + val + '</span>' : '') +
+      '</button>';
+  }
+  document.getElementById('calGrid').innerHTML = html;
+  document.getElementById('calSummary').textContent = daysLogged === 0
+    ? 'Sin registros este mes todavía.'
+    : totalMonth + ' ' + CONSUMO_UNIT + ' en ' + daysLogged + (daysLogged === 1 ? ' día registrado' : ' días registrados') + ' este mes.';
+
+  renderCalEditor();
+}
+
+function calSelectDay(d) {
+  calSelectedDate = calDateKey(calViewYear, calViewMonth, d);
+  renderCalendar();
+}
+
+function renderCalEditor() {
+  const wrap = document.getElementById('calEditor');
+  if (!calSelectedDate) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+  const log = consumoLogCache;
+  const parts = calSelectedDate.split('-').map(Number);
+  const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+  let label = dateObj.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
+  label = label.charAt(0).toUpperCase() + label.slice(1);
+  document.getElementById('calEditorDate').textContent = label;
+  calEditorValue = log[calSelectedDate] ?? 0;
+  document.getElementById('calEditorValue').textContent = calEditorValue;
+}
+
+/* El stepper se guarda solo, sin botones de Guardar/Quitar: cada + o −
+   escribe directo en localStorage (si llega a 0 se borra el día). */
+async function calStep(delta) {
+  calEditorValue = Math.max(0, calEditorValue + delta);
+  document.getElementById('calEditorValue').textContent = calEditorValue;
+  if (calEditorValue > 0) {
+    consumoLogCache[calSelectedDate] = calEditorValue;
+  } else {
+    delete consumoLogCache[calSelectedDate];
+  }
+  saveConsumoLog();
+  renderCalendar();
+}
+
+/* Cronómetro del craving: cuenta regresiva de 3 minutos. */
+let tsecs = 180, tdefault = 180, trunning = false, tint = null;
+function fmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+function toggleTimer() {
+  if(trunning){clearInterval(tint);trunning=false;document.getElementById('tbtn').textContent='Continuar';}
+  else {
+    if(tsecs<=0){tsecs=tdefault;document.getElementById('tdisplay').textContent=fmt(tsecs);}
+    trunning=true;document.getElementById('tbtn').textContent='Pausar';
+    tint=setInterval(()=>{tsecs--;document.getElementById('tdisplay').textContent=fmt(tsecs);if(tsecs<=0){clearInterval(tint);trunning=false;document.getElementById('tbtn').textContent='¡Lo lograste!';}},1000);
+  }
+}
+function setTimerDuration(mins) {
+  clearInterval(tint);
+  trunning = false;
+  tdefault = mins * 60;
+  tsecs = tdefault;
+  document.getElementById('tdisplay').textContent = fmt(tsecs);
+  document.getElementById('tbtn').textContent = 'Iniciar';
+  document.querySelectorAll('.timer-preset-btn').forEach(function (b) {
+    b.classList.toggle('on', parseInt(b.dataset.mins, 10) === mins);
+  });
+}
+function openCravingTimer() {
+  document.querySelectorAll('.timer-preset-btn').forEach(function (b) {
+    b.classList.toggle('on', parseInt(b.dataset.mins, 10) * 60 === tdefault);
+  });
+  goRec('s-rec-craving-timer');
+}
+function resetTimer(){clearInterval(tint);trunning=false;tsecs=tdefault;document.getElementById('tdisplay').textContent=fmt(tsecs);document.getElementById('tbtn').textContent='Iniciar';}
+
+/* Ejercicio de respiración 4-7-8: guía visual animada, sin dependencias
+   externas. El círculo cambia de tamaño con transición CSS cronometrada a
+   la duración de cada fase (inhala/mantén/exhala). */
+const BREATHE_PHASES = [
+  { name: 'Inhala', duration: 4, scale: 1.4 },
+  { name: 'Mantén', duration: 7, scale: 1.4 },
+  { name: 'Exhala', duration: 8, scale: 0.8 },
+];
+let breatheRunning = false, breathePhaseIdx = -1, breatheSecsLeft = 0, breatheInt = null;
+
+function toggleBreathe() { if (breatheRunning) stopBreathe(); else startBreathe(); }
+function startBreathe() {
+  breatheRunning = true;
+  breathePhaseIdx = -1;
+  document.getElementById('breatheBtn').textContent = 'Detener';
+  nextBreathePhase();
+}
+function nextBreathePhase() {
+  breathePhaseIdx = (breathePhaseIdx + 1) % BREATHE_PHASES.length;
+  const phase = BREATHE_PHASES[breathePhaseIdx];
+  breatheSecsLeft = phase.duration;
+  const circle = document.getElementById('breatheCircle');
+  circle.style.transitionDuration = phase.duration + 's';
+  circle.style.transform = 'scale(' + phase.scale + ')';
+  document.getElementById('breathePhaseText').textContent = phase.name;
+  document.getElementById('breatheCount').textContent = breatheSecsLeft;
+  clearInterval(breatheInt);
+  breatheInt = setInterval(function () {
+    breatheSecsLeft--;
+    document.getElementById('breatheCount').textContent = Math.max(breatheSecsLeft, 0);
+    if (breatheSecsLeft <= 0) {
+      clearInterval(breatheInt);
+      if (breatheRunning) nextBreathePhase();
+    }
+  }, 1000);
+}
+function stopBreathe() {
+  breatheRunning = false;
+  clearInterval(breatheInt);
+  document.getElementById('breatheBtn').textContent = 'Inhala y exhala';
+  document.getElementById('breathePhaseText').textContent = 'Lista para empezar';
+  document.getElementById('breatheCount').textContent = '';
+  const circle = document.getElementById('breatheCircle');
+  circle.style.transitionDuration = '.6s';
+  circle.style.transform = 'scale(1)';
+}
+
+async function startQ() {
+  beginQuiz();
+}
+function beginQuiz() { cur = 0; ans = Array(10).fill(null); renderQ(); goScr('s-quiz'); }
+
+function renderQ() {
+  document.getElementById('qpf').style.width = `${(cur / 10) * 100}%`;
+  document.getElementById('qctr').textContent = `${cur + 1} de 10`;
+  document.getElementById('qtext').textContent = Qs[cur];
+  document.getElementById('qbtn').textContent = cur === 9 ? 'Ver resultado' : 'Siguiente';
+  document.getElementById('qopts').innerHTML = [
+    { t: 'Sí', v: 1 },
+    { t: 'No', v: 0 }
+  ].map(o => `<button class="q-opt${ans[cur]===o.v?' on':''}" onclick="pick(${o.v})">${o.t}</button>`).join('');
+}
+
+function pick(v) { ans[cur] = v; renderQ(); }
+
+function nextQ() {
+  if (ans[cur] === null) {
+    document.querySelectorAll('.q-opt').forEach(b => { b.style.borderColor='#F59E0B'; setTimeout(()=>b.style.borderColor='',700); });
+    return;
+  }
+  if (cur < 9) { cur++; renderQ(); } else finishQuiz();
+}
+
+function prevQ() { if (cur > 0) { cur--; renderQ(); } }
+
+function finishQuiz() {
+  lastScore = ans.reduce((a,b) => a + (b||0), 0);
+  lastZone = lastScore === 0 ? 'green' : lastScore <= 3 ? 'yellow' : 'red';
+  showRes();
+}
+
+
+function showRes() {
+  const score = lastScore, lv = lastZone;
+  const r = RES[lv];
+  document.getElementById('rzone').textContent = r.zone;
+  document.getElementById('rlabel').textContent = r.lbl;
+  document.getElementById('rlabel').className = `res-label ${r.cls}`;
+  document.getElementById('rscore').textContent = `Puntuación HONC: ${score}/10`;
+  document.getElementById('rdesc').textContent = r.desc;
+  ['sg','sy','sr'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    const cls = ['g','y','r'][i], lev = ['green','yellow','red'][i];
+    el.className = `sl ${cls}${lv===lev?' lit':''}`;
+  });
+  document.getElementById('toolslist').innerHTML = TOOLS[lv].map((t,i) => `
+    <div class="tool" onclick="toggleTool(this)">
+      <div class="tool-hd${i===0?' open':''}">
+        <h4>${t.t}</h4>
+        <span class="chev">›</span>
+      </div>
+      <div class="tool-bd${i===0?' open':''}">${t.b}</div>
+    </div>`).join('');
+  goScr('s-result');
+}
+
+function toggleTool(el) {
+  const hd = el.querySelector('.tool-hd'), bd = el.querySelector('.tool-bd');
+  const was = hd.classList.contains('open');
+  document.querySelectorAll('#toolslist .tool-hd').forEach(h => h.classList.remove('open'));
+  document.querySelectorAll('#toolslist .tool-bd').forEach(b => b.classList.remove('open'));
+  if (!was) { hd.classList.add('open'); bd.classList.add('open'); }
+}
+
+function resetQ() { cur = 0; ans = Array(10).fill(null);  renderQ(); goScr('s-detect'); }
+
+function toggleEff(h) {
+  const bd = h.nextElementSibling;
+  const was = h.classList.contains('open');
+  h.classList.toggle('open', !was);
+  bd.classList.toggle('open', !was);
+}
+
+/* Aprende: dos modos. "Dato aleatorio" muestra una tarjeta al azar de
+   APR_FACTS (botón refrescar la cambia); "Por tema" navega a un menú de
+   secciones, cada una su propia pantalla. Mismo patrón .scr que Recursos. */
+function goApr(id) {
+  document.querySelectorAll('#p-conoce .scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.apr-switch-btn').forEach(function (b) {
+    b.classList.toggle('on', b.dataset.target === id);
+  });
+  window.scrollTo(0,0);
+}
+
+const APR_FACTS = [
+  { num: '90%', ctx: 'de los fumadores adultos empezó a fumar antes de cumplir 18 años.', src: 'OMS' },
+  { num: '10', ctx: 'segundos tarda la nicotina en llegar al cerebro al fumar, más rápido que inyectada directo a la vena.', src: 'Farmacología de la nicotina' },
+  { num: '70%', ctx: 'más riesgo de desarrollar ansiedad o depresión tienen las personas que fuman.', src: 'University College London' },
+  { num: '17.6%', ctx: 'de la población mexicana de 12 a 65 años fuma actualmente.', src: 'ENCODAT' },
+  { num: '62%', ctx: 'de los fumadores mexicanos son fumadores ocasionales o con dependencia leve, no todos llegan a dependencia severa.', src: 'ENCODAT, escala FTND' },
+  { num: '10', ctx: 'años de esperanza de vida se pierden en promedio por fumar durante toda la vida.', src: 'Estudios de cohorte sobre tabaquismo' },
+  { num: '14.4%', ctx: 'de los fumadores mexicanos presenta síntomas depresivos moderados o severos.', src: 'Estudios en población mexicana' },
+  { num: '$107', ctx: 'MXN cuesta en promedio una cajetilla de cigarros en 2026, tras el aumento del IEPS.', src: 'IEPS 2026' },
+  { num: '4,000+', ctx: 'sustancias químicas contiene el humo del cigarro, más de 70 son conocidas como causantes de cáncer.', src: 'Composición del humo de tabaco' },
+  { num: '9 de 10', ctx: 'fumadores adultos dirían que preferirían no haber empezado a fumar, si pudieran regresar el tiempo.', src: 'Encuestas de arrepentimiento en fumadores' },
+];
+let aprCurrentFactIdx = -1;
+function aprRefresh() {
+  let idx;
+  do { idx = Math.floor(Math.random() * APR_FACTS.length); } while (APR_FACTS.length > 1 && idx === aprCurrentFactIdx);
+  aprCurrentFactIdx = idx;
+  const f = APR_FACTS[idx];
+  document.getElementById('aprNum').textContent = f.num;
+  document.getElementById('aprCtx').textContent = f.ctx;
+  document.getElementById('aprSrc').textContent = 'Fuente: ' + f.src;
+}
+aprRefresh();
+
+function toggleRec(el) {
+  const bd = el.querySelector('.rec-bd');
+  bd.classList.toggle('open');
+}
+
+renderQ();
+
+let lastScore = 0, lastZone = 'green';
+
+/* Identifica tus triggers: autorreporte basado en los 3 dominios de
+   situaciones de riesgo del Smoking Self-Efficacy Questionnaire (SEQ-12,
+   DiClemente et al.), instrumento validado para medir la confianza de
+   una persona para no fumar en distintas situaciones de riesgo. No es el
+   cuestionario textual completo; son categorías de auto-reporte
+   inspiradas en su estructura, no reactivos del instrumento original. */
+const TRIGGER_CATEGORIES = [
+  { key: 'afecto_negativo', icon: '😣', label: 'Afecto negativo', tip: 'Cuando el estrés o el enojo disparan las ganas de fumar, el cuerpo busca una forma rápida de regularse. La respiración 4-7-8 de Craving hace algo parecido sin nicotina: activa el sistema nervioso parasimpático.' },
+  { key: 'situaciones_sociales', icon: '👥', label: 'Situaciones sociales o positivas', tip: 'Fumar después de comer o en una reunión se vuelve automático con el tiempo. Cambiar el ritual (levantarte de la mesa, tener algo más en las manos) ayuda a romper la asociación.' },
+  { key: 'habito_craving', icon: '🔁', label: 'Hábito y craving', tip: 'Cuando es puro hábito (al despertar, manejando, con alcohol), el cronómetro de Craving ayuda a notar que el impulso pasa solo en unos minutos, incluso si al principio no lo sientes así.' },
+];
+let selectedTriggers = [];
+const TRIGGERS_KEY = 'tabaco_triggers';
+
+async function openTriggers() {
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem(TRIGGERS_KEY)) || []; } catch (e) {}
+  selectedTriggers = saved;
+  if (saved.length > 0) renderTriggerResults();
+  else editTriggers();
+  goRec('s-rec-triggers');
+}
+
+function renderTriggersGrid() {
+  const wrap = document.getElementById('triggersGrid');
+  wrap.innerHTML = TRIGGER_CATEGORIES.map(function (c) {
+    return '<button type="button" class="goal-chip' + (selectedTriggers.indexOf(c.key) !== -1 ? ' on' : '') + '" onclick="toggleTrigger(\'' + c.key + '\')">' + c.icon + ' ' + c.label + '</button>';
+  }).join('');
+}
+
+function toggleTrigger(key) {
+  const i = selectedTriggers.indexOf(key);
+  if (i === -1) selectedTriggers.push(key);
+  else selectedTriggers.splice(i, 1);
+  renderTriggersGrid();
+}
+
+async function showTriggerResults() {
+  if (selectedTriggers.length === 0) return;
+  try { localStorage.setItem(TRIGGERS_KEY, JSON.stringify(selectedTriggers)); } catch (e) {}
+  renderTriggerResults();
+}
+
+function renderTriggerResults() {
+  document.getElementById('triggersIntro').style.display = 'none';
+  document.getElementById('triggersResultWrap').style.display = '';
+  const wrap = document.getElementById('triggersResultList');
+  wrap.innerHTML = selectedTriggers.map(function (key) {
+    const c = TRIGGER_CATEGORIES.find(function (x) { return x.key === key; });
+    if (!c) return '';
+    return '<div class="rec-item"><div class="rec-icon">' + c.icon + '</div><div style="flex:1"><div class="rec-title">' + c.label + '</div><div class="rec-bd">' + c.tip + '</div></div></div>';
+  }).join('');
+}
+
+function editTriggers() {
+  document.getElementById('triggersIntro').style.display = '';
+  document.getElementById('triggersResultWrap').style.display = 'none';
+  renderTriggersGrid();
+}
+
+
+/* AJUSTES: preferencias de la app, guardadas en este dispositivo.
+   Tamaño de texto: como los estilos usan px, se escala el font-size de
+   cada regla CSS (guardando el valor original para poder regresar). */
+const PREFS_KEY = 'tabaco_prefs';
+function loadPrefs() {
+  try { return JSON.parse(localStorage.getItem(PREFS_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function savePref(key, value) {
+  const p = loadPrefs();
+  p[key] = value;
+  try { localStorage.setItem(PREFS_KEY, JSON.stringify(p)); } catch (e) {}
+}
+function markSeg(groupId, val) {
+  document.querySelectorAll('#' + groupId + ' button').forEach(function (b) {
+    const on = parseFloat(b.dataset.val) === val;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+const baseFontSizes = new Map();
+function applyTextSize(scale) {
+  Array.from(document.styleSheets).forEach(function (sheet) {
+    let rules;
+    try { rules = sheet.cssRules; } catch (e) { return; }
+    Array.from(rules || []).forEach(function (r) {
+      if (!r.style) return;
+      if (!baseFontSizes.has(r)) {
+        const m = /^([\d.]+)px$/.exec(r.style.fontSize || '');
+        if (!m) return;
+        baseFontSizes.set(r, parseFloat(m[1]));
+      }
+      r.style.fontSize = (baseFontSizes.get(r) * scale).toFixed(2) + 'px';
+    });
+  });
+}
+function setTextSize(scale) {
+  applyTextSize(scale);
+  markSeg('prefTextSize', scale);
+  savePref('textSize', scale);
+}
+function setDefaultTimer(mins) {
+  setTimerDuration(mins);
+  markSeg('prefTimer', mins);
+  savePref('timerMins', mins);
+}
+function setReduceMotion(on) {
+  document.documentElement.classList.toggle('reduce-motion', on);
+  savePref('reduceMotion', on);
+}
+(function initPrefs() {
+  const p = loadPrefs();
+  const scale = p.textSize || 1;
+  if (scale !== 1) applyTextSize(scale);
+  markSeg('prefTextSize', scale);
+  const mins = p.timerMins || 3;
+  setTimerDuration(mins);
+  markSeg('prefTimer', mins);
+  const rm = !!p.reduceMotion;
+  document.documentElement.classList.toggle('reduce-motion', rm);
+  document.getElementById('prefReduceMotion').checked = rm;
+})();
+</script>
+</body>
+</html>

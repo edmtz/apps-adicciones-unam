@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEVyC · Herramientas de autoevaluación</title>
+<style>
+:root {
+  --bg: #F9FAFB;
+  --card: #fff;
+  --text: #111827;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+header { background: #fff; border-bottom: 1px solid var(--border); padding: 24px; text-align: center; }
+.unam-logo-badge { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: #111827; border-radius: 16px; margin-bottom: 14px; }
+.unam-logo-badge img { width: 44px; height: auto; display: block; }
+.unam-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.site-title { font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--text); }
+.site-title em { font-style: normal; color: #2563EB; }
+.site-sub { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+main { max-width: 960px; margin: 0 auto; padding: 36px 20px 60px; }
+
+.how-to {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 36px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.how-icon { font-size: 26px; flex-shrink: 0; line-height: 1; padding-top: 2px; }
+.how-title { font-size: 14px; font-weight: 700; color: #1D4ED8; margin-bottom: 6px; }
+.how-text { font-size: 13px; color: #1E3A8A; line-height: 1.65; }
+.how-text strong { font-weight: 700; }
+
+.apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; }
+
+.app-card {
+  background: var(--card);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  display: flex;
+  flex-direction: column;
+}
+.card-head {
+  padding: 22px 24px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.card-name { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 2px; letter-spacing: -0.3px; }
+.card-inst { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,.55); }
+.card-emoji { font-size: 36px; line-height: 1; padding-top: 2px; }
+.card-body { padding: 20px 24px 24px; flex: 1; display: flex; flex-direction: column; gap: 18px; }
+.card-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+.qr-area { display: flex; gap: 14px; align-items: center; }
+.qr-box {
+  width: 90px; height: 90px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qr-box img { width: 100%; height: 100%; display: block; }
+.qr-placeholder { font-size: 11px; color: #C0C4CC; text-align: center; padding: 8px; line-height: 1.5; }
+.qr-info { flex: 1; min-width: 0; }
+.qr-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.qr-url { font-size: 11px; color: var(--muted); word-break: break-all; font-family: 'SF Mono', 'Menlo', monospace; line-height: 1.5; }
+
+.btn-open {
+  display: block;
+  padding: 13px 16px;
+  border-radius: 11px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity .12s, transform .1s;
+  margin-top: auto;
+  color: #fff;
+}
+.btn-open:hover { opacity: .88; transform: translateY(-1px); }
+.btn-open:active { transform: translateY(0); opacity: .95; }
+
+.install-note {
+  background: #F9FAFB;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-top: 36px;
+}
+.install-note h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.install-steps { display: flex; flex-direction: column; gap: 8px; }
+.step { display: flex; gap: 10px; align-items: flex-start; }
+.step-n { width: 22px; height: 22px; border-radius: 50%; background: var(--text); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.step-text strong { color: var(--text); font-weight: 600; }
+
+footer { text-align: center; padding: 28px 24px; font-size: 11px; color: #C0C4CC; line-height: 2; border-top: 1px solid var(--border); background: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="unam-logo-badge"><img src="unam-shield.png" alt="UNAM"></div>
+  <div class="unam-tag">Ciberpsicología · UNAM</div>
+  <div class="site-title">LEV<em>y</em>C</div>
+  <div class="site-sub">Laboratorio de Enseñanza Virtual y Ciberpsicología · UNAM<br>Herramientas de autoevaluación · Anónimo · Sin registro · Sin descarga</div>
+</header>
+
+<main>
+  <div class="how-to">
+    <div class="how-icon">📱</div>
+    <div>
+      <div class="how-title">¿Cómo usar estas apps?</div>
+      <div class="how-text">
+        Escanea el código QR con la cámara de tu celular, o toca <strong>"Abrir"</strong>. La app se abre directo en tu navegador, no hay que descargar nada ni crear una cuenta.
+      </div>
+    </div>
+  </div>
+
+  <div class="apps-grid">
+
+    <div class="app-card">
+      <div class="card-head" style="background:#500724">
+        <div>
+          <div class="card-name">Alcohol</div>
+          <div class="card-inst">AUDIT · OMS · 3 minutos</div>
+        </div>
+        <div class="card-emoji">🍷</div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Evalúa tu relación con el alcohol con el cuestionario AUDIT de la Organización Mundial de la Salud. Incluye información sobre efectos, resultados y estrategias concretas.</div>
+        <div class="qr-area">
+          <div class="qr-box">
+            <img id="qr-alcohol" src="" alt="QR Alcohol">
+          </div>
+          <div class="qr-info">
+            <div class="qr-label">Escanea con tu cámara</div>
+            <div class="qr-url" id="url-alcohol">Generando enlace…</div>
+          </div>
+        </div>
+        <a id="btn-alcohol" href="./Alcohol/app_alcohol.html" class="btn-open" style="background:#500724">Abrir Alcohol ↗</a>
+      </div>
+    </div>
+
+    <div class="app-card">
+      <div class="card-head" style="background:#7A3218">
+        <div>
+          <div class="card-name">Tabaco</div>
+          <div class="card-inst">HONC · 2 minutos</div>
+        </div>
+        <div class="card-emoji">🚬</div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Evalúa tu nivel de dependencia al tabaco con el instrumento HONC (Hooked on Nicotine Checklist). Identifica señales tempranas de pérdida de autonomía.</div>
+        <div class="qr-area">
+          <div class="qr-box">
+            <img id="qr-tabaco" src="" alt="QR Tabaco">
+          </div>
+          <div class="qr-info">
+            <div class="qr-label">Escanea con tu cámara</div>
+            <div class="qr-url" id="url-tabaco">Generando enlace…</div>
+          </div>
+        </div>
+        <a id="btn-tabaco" href="./Tabaco/app_tabaco.html" class="btn-open" style="background:#7A3218">Abrir Tabaco ↗</a>
+      </div>
+    </div>
+
+    <div class="app-card">
+      <div class="card-head" style="background:#312E81">
+        <div>
+          <div class="card-name">Vaping</div>
+          <div class="card-inst">PSECDI · 2 minutos</div>
+        </div>
+        <div class="card-emoji">☁️</div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Evalúa tu dependencia al cigarro electrónico con el instrumento PSECDI de Penn State. Incluye un temporizador de craving y estrategias de reducción.</div>
+        <div class="qr-area">
+          <div class="qr-box">
+            <img id="qr-vaping" src="" alt="QR Vaping">
+          </div>
+          <div class="qr-info">
+            <div class="qr-label">Escanea con tu cámara</div>
+            <div class="qr-url" id="url-vaping">Generando enlace…</div>
+          </div>
+        </div>
+        <a id="btn-vaping" href="./Vaping/app_vaping.html" class="btn-open" style="background:#312E81">Abrir Vaping ↗</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="install-note">
+    <h3>Para guardar la app en tu celular (opcional)</h3>
+    <div class="install-steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-text">Abre la app que quieras guardar</div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-text"><strong>iPhone:</strong> toca el ícono de compartir (□↑) y selecciona <strong>"Añadir a pantalla de inicio"</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div class="step-text"><strong>Android:</strong> toca el menú (⋮) del navegador y selecciona <strong>"Agregar a pantalla de inicio"</strong> o <strong>"Instalar app"</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-n">4</div>
+        <div class="step-text">La app aparecerá como ícono en tu pantalla, funciona como una app normal, sin necesidad de ir al navegador cada vez</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Proyecto de investigación · Ciberpsicología · UNAM<br>
+  Instrumento anónimo · Sin recopilación de datos personales · Sin almacenamiento en servidor
+</footer>
+
+<script>
+(function () {
+  const isLocal = window.location.protocol === 'file:';
+  const pageBase = window.location.href.split('/').slice(0, -1).join('/');
+
+  const apps = [
+    { id: 'alcohol', path: 'Alcohol/app_alcohol.html' },
+    { id: 'tabaco',  path: 'Tabaco/app_tabaco.html'  },
+    { id: 'vaping',  path: 'Vaping/app_vaping.html'  }
+  ];
+
+  apps.forEach(function (app) {
+    var fullUrl = pageBase + '/' + app.path;
+    var btn = document.getElementById('btn-' + app.id);
+    var qrImg = document.getElementById('qr-' + app.id);
+    var urlEl = document.getElementById('url-' + app.id);
+
+    btn.href = './' + app.path;
+
+    if (isLocal) {
+      qrImg.parentElement.innerHTML = '<div class="qr-placeholder">QR visible<br>al publicar</div>';
+      urlEl.textContent = 'Publica en Netlify para ver el enlace';
+    } else {
+      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=6&data=' + encodeURIComponent(fullUrl);
+      urlEl.textContent = fullUrl;
+      btn.href = fullUrl;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

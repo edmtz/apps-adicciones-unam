@@ -1,0 +1,17 @@
+{
+  "name": "CheckTabaco · UNAM",
+  "short_name": "CheckTabaco",
+  "description": "Evalúa tu relación con el tabaco (HONC)",
+  "start_url": "./app_tabaco.html",
+  "display": "standalone",
+  "background_color": "#FAFAF9",
+  "theme_color": "#7A3218",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

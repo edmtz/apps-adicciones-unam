@@ -1,0 +1,17 @@
+{
+  "name": "CheckAlcohol · UNAM",
+  "short_name": "CheckAlcohol",
+  "description": "Evalúa tu relación con el alcohol (AUDIT · OMS)",
+  "start_url": "./app_alcohol.html",
+  "display": "standalone",
+  "background_color": "#FFF8F9",
+  "theme_color": "#500724",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
